@@ -1,6 +1,7 @@
 package com.example.agrishare.model;
 
 import android.util.Log;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +9,27 @@ import java.util.Map;
 class ModelFireBase {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth;
+    ModelFireBase() {
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+
+    /*              // check if user that opened the app still logged in (need to be in the first activity)
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null)
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();       //go to home page
+        }
+    }
+     */
+
 
     public void logIn(String userName,String password) {
-        // TODO: pull data from DB and compare the username and password.
+
     }
 
     public void register(String fullName,String userName,String password) {

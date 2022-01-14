@@ -52,13 +52,12 @@ public class RegisterFragment extends Fragment {
         username=view.findViewById(R.id.regfrag_userName_txt);
         password=view.findViewById(R.id.regfrag_password);
 
-        Button login = view.findViewById(R.id.regfrag_login_btn);   // login button
+        Button login = view.findViewById(R.id.regfrag_login_btn);
         login.setOnClickListener((v)->{
             Navigation.findNavController(v).navigateUp();
         });
 
-
-        Button register = view.findViewById(R.id.regfrag_register_btn);  // register button
+        Button register = view.findViewById(R.id.regfrag_register_btn);
         register.setOnClickListener((v)->{
             if(Model.instance.register(username.getText().toString(), password.getText().toString()))
                 Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_homeFragment);

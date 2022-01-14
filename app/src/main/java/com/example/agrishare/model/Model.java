@@ -7,24 +7,21 @@ public class Model {
 
     public static final Model instance = new Model();
 
-    Map<String, String> map = new HashMap<String,String>();
+    Map<String, String> map = new HashMap<String,String>();     //Temporary instead of out DB
 
 
-    private Model(){
-
-    }
+    private Model(){}
 
 
-    public boolean logIn(String userName,String password){
+    public boolean logIn(String userName,String password){      // log in function in ModelFireBase
         String pas = map.get(userName);
         if (pas!=null){
-            if(pas.equals(password))
-                return true;
+            return pas.equals(password);
         }
         return false;
     }
 
-    public boolean register(String userName,String password){
+    public boolean register(String userName,String password){       // register function in ModelFireBase
         String pas = map.get(userName);
         if (pas!=null){
             return false;

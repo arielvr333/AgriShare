@@ -1,5 +1,7 @@
 package com.example.agrishare;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,7 @@ public class LoginFragment extends Fragment {
 
     private EditText username;
     private EditText password;
-
+    Context thisContext;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -50,6 +52,10 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    public Context getThisContext() {
+        return thisContext;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class LoginFragment extends Fragment {
         username=view.findViewById(R.id.loginfrag_userName_txt);
         password=view.findViewById(R.id.loginfrag_pass_txt);
 
-
+        thisContext = container.getContext();
         view.findViewById(R.id.loginfrag_register_btn).setOnClickListener
                 (Navigation.createNavigateOnClickListener
                         (R.id.action_loginFragment_to_registerFragment));
