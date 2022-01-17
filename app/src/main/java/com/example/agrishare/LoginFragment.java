@@ -58,19 +58,6 @@ public class LoginFragment extends Fragment {
                 (Navigation.createNavigateOnClickListener
                         (R.id.action_loginFragment_to_registerFragment));
 
-/*
-        view.findViewById(R.id.loginfrag_login_btn).setOnClickListener((v) -> {
-            if (Model.instance.logIn(username.getText().toString(), password.getText().toString())) {
-                //Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment(username.getText().toString()));
-                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
-            } else {
-                Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
-            }
-            Log.d("tag", "log in button is clicked");
-        });
-        return view;
-*/
-
         view.findViewById(R.id.loginfrag_login_btn).setOnClickListener(v -> {
             String txt_email = username.getText().toString();
             String txt_password = password.getText().toString();
@@ -78,14 +65,10 @@ public class LoginFragment extends Fragment {
             if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
                 Toast.makeText(getContext(), "please enter email and password!", Toast.LENGTH_LONG).show();
             } else {
-                try {
-                    if(com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password))
-                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
-                    else
-                        Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                if(com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password))
+                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
+                else
+                    Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
             }
         });
         return view;

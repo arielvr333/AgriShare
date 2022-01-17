@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +43,7 @@ public class ModelFireBase {
      */
 
 
-    public static boolean loginUser(String email, String password) throws InterruptedException {
+    public static boolean loginUser(String email, String password) {
         AtomicBoolean flag = new AtomicBoolean(false);
         Log.d("tag", String.valueOf(flag.get()));
         mAuth.signInWithEmailAndPassword(email , password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -63,7 +62,6 @@ public class ModelFireBase {
             }
         });
         Log.d("tag", String.valueOf(flag.get()));
-        TimeUnit.SECONDS.sleep(1);
         return flag.get();
     }
 /*
