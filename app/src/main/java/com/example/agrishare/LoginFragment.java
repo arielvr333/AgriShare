@@ -1,32 +1,30 @@
 package com.example.agrishare;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.example.agrishare.model.Model;
+import com.example.agrishare.model.ModelFireBase;
 
 
 public class LoginFragment extends Fragment {
 
     private EditText username;
     private EditText password;
-    Context thisContext;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
 
     private String mParam1;
     private String mParam2;
+    private com.example.agrishare.model.ModelFireBase ModelFireBase;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -34,7 +32,7 @@ public class LoginFragment extends Fragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
+    public LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -52,34 +50,45 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    public Context getThisContext() {
-        return thisContext;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view= inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        username=view.findViewById(R.id.loginfrag_userName_txt);
-        password=view.findViewById(R.id.loginfrag_pass_txt);
-
-        thisContext = container.getContext();
+        username = view.findViewById(R.id.loginfrag_userName_txt);
+        password = view.findViewById(R.id.loginfrag_pass_txt);
         view.findViewById(R.id.loginfrag_register_btn).setOnClickListener
                 (Navigation.createNavigateOnClickListener
                         (R.id.action_loginFragment_to_registerFragment));
 
+/*
+        view.findViewById(R.id.loginfrag_login_btn).setOnClickListener((v) -> {
+            if (Model.instance.logIn(username.getText().toString(), password.getText().toString())) {
+                //Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment(username.getText().toString()));
+                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
+            } else {
+                Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
+            }
+            Log.d("tag", "log in button is clicked");
+        });
+        return view;
+*/
 
-        view.findViewById(R.id.loginfrag_login_btn).setOnClickListener((v)->{
-                    if (Model.instance.logIn(username.getText().toString(), password.getText().toString())){
-                        //Navigation.findNavController(v).navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment(username.getText().toString()));
-                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
-                    }else {
-                        Toast.makeText(getContext(),"The password or username is incorrect",Toast.LENGTH_LONG).show();
-                    }
-                    Log.d("tag","log in button is clicked");
-                });
+        view.findViewById(R.id.loginfrag_login_btn).setOnClickListener(v -> {
+            String txt_email = username.getText().toString();
+            String txt_password = password.getText().toString();
+
+            if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
+                Toast.makeText(getContext(), "please enter email and password!", Toast.LENGTH_LONG).show();
+            } else {
+                if(com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password))
+                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
+                else
+                    Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
+            }
+        });
         return view;
     }
 }
+
