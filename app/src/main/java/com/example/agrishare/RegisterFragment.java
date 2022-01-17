@@ -2,7 +2,6 @@ package com.example.agrishare;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,39 +57,20 @@ public class RegisterFragment extends Fragment {
         });
 
         Button register = view.findViewById(R.id.regfrag_register_btn);
-        /*
-        register.setOnClickListener((v)->{
-            if(Model.instance.register(username.getText().toString(), password.getText().toString()))
-                Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_homeFragment);
-                // Navigation.findNavController(v).navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment(username.getText().toString()));
-            else
-                Toast.makeText(getContext(),"please choose a different username",Toast.LENGTH_LONG).show();
-        });
-*/
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("tag", "clicked");
-                if (TextUtils.isEmpty(username.getText().toString()) || TextUtils.isEmpty(fullName.getText().toString())|| TextUtils.isEmpty(password.getText().toString())){
-                    Log.d("tag", "empty");
-                    Toast.makeText(getContext(), "please fill all fields!", Toast.LENGTH_SHORT).show();
-                } else if (password.length() < 6){
-                    Log.d("tag", "less than 6");
-                    Toast.makeText(getContext(), "Password too short!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if(ModelFireBase.registerUser(username.getText().toString() , fullName.getText().toString()  , password.getText().toString())) {
-                        Log.d("tag", "firebase return an true answer");
-                        Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_homeFragment);
-                    }
-                        // Navigation.findNavController(v).navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment(username.getText().toString()));
-                    else {
-                        Log.d("tag", "fire base return false answer");
-                        Toast.makeText(getContext(), "please choose a different username", Toast.LENGTH_LONG).show();
-                    }
-                }
+        register.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(username.getText().toString()) || TextUtils.isEmpty(fullName.getText().toString())|| TextUtils.isEmpty(password.getText().toString())){
+                Toast.makeText(getContext(), "please fill all fields!", Toast.LENGTH_SHORT).show();
+            } else if (password.length() < 6){
+                Toast.makeText(getContext(), "Password too short!", Toast.LENGTH_SHORT).show();
+            } else {
+               ModelFireBase.registerUser(username.getText().toString(), fullName.getText().toString(), password.getText().toString(), bool -> {
+                   if (bool)
+                       Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_homeFragment);
+                   else
+                       Toast.makeText(getContext(), "please choose a different username", Toast.LENGTH_LONG).show();
+               });
             }
         });
-
         return view;
     }
 

@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.example.agrishare.model.ModelFireBase;
+
 public class LoginFragment extends Fragment {
 
     private EditText username;
@@ -65,10 +68,12 @@ public class LoginFragment extends Fragment {
             if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
                 Toast.makeText(getContext(), "please enter email and password!", Toast.LENGTH_LONG).show();
             } else {
-                if(com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password))
-                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
-                else
-                    Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
+                com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password, bool -> {
+                    if (bool)
+                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
+                    else
+                        Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
+                });
             }
         });
         return view;
