@@ -11,10 +11,13 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ModelFireBase {
 
     private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private  static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 
-    public ModelFireBase() {}
+    public ModelFireBase() {
+       // mAuth = FirebaseAuth.getInstance();
+    //    mRootRef = FirebaseDatabase.getInstance().getReference();
+    }
 
 
     /*              // check if user that opened the app still logged in (need to be in the first activity)
@@ -45,19 +48,11 @@ public class ModelFireBase {
         }).addOnFailureListener(e -> listener.onComplete(false));
     }
 
-    public static void registerUser(final String username, final String name, String password, RegisterListener listener) {
-        mAuth.createUserWithEmailAndPassword(username, password).addOnSuccessListener(authResult -> {
+    public static void registerUser(final String Email, final String name, String password,String address,String phoneNumber, RegisterListener listener) {
+        mAuth.createUserWithEmailAndPassword(Email, password).addOnSuccessListener(authResult -> {
             listener.onComplete(true);
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("name", name);
-            map.put("username", username);
-            map.put("id", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
-            mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(task -> {
-                if (task.isSuccessful())
-                    Log.d("tag", "completed");
-                else
-                    Log.d("tag", "task failed");
-            }).addOnFailureListener(e -> listener.onComplete(false));
-        });
+            User newuser = new User(name, Email, 2, address, phoneNumber);
+            db.collection("Users").document(name).set(newuser);
+         });
     }
 }

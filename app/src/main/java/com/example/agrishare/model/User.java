@@ -1,19 +1,20 @@
 package com.example.agrishare.model;
 
 public class User {
+
     String Name;
-    String UserName;
-  //  url profilePic;
-    int Age;
-    String City;
+    String Email;
+    String Address;
+    String phoneNumber;
+    int Id;
 
-    public User(String name, String UserName, int age, String city){
+    public User(String name, String Email, int Id, String address,String PhoneNumber){
         this.Name = name;
-        this.Age = age;
-        this.UserName = UserName;
-        this.City = city;
+        this.Email = Email;
+        this.Address = address;
+        this.phoneNumber = PhoneNumber;
+        this.Id=Id;
     }
-
     public String getName() {
         return Name;
     }
@@ -22,27 +23,36 @@ public class User {
         Name = name;
     }
 
-    public String getUserName() {
-        return UserName;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setEmail(String email) {
+        Email = email;
     }
 
-    public int getAge() {
-        return Age;
+    public String getAddress() {
+        return Address;
     }
 
-    public void setAge(int age) {
-        Age = age;
+    public void setAddress(String address) {
+        Address = address;
     }
 
-    public String getCity() {
-        return City;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setCity(String city) {
-        City = city;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
 }
