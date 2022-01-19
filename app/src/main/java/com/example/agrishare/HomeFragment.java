@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 
 public class HomeFragment extends Fragment {
@@ -42,10 +44,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.fragment_home, container, false);
+        Button addPost =view.findViewById(R.id.addPost_btn);
+        addPost.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_addPostFragment));
 //        String name = HomeFragmentArgs.fromBundle(getArguments()).getUserName();
 //        username=view.findViewById(R.id.homefreg_username_txt);
 //        username.setText("Hello " + name);
-
         return view;
     }
 }
