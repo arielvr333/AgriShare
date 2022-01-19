@@ -5,6 +5,19 @@ import java.util.Map;
 
 public class Model {
 
+
+    ModelFireBase modelFirebase = new ModelFireBase();
+    public interface AddPostListener {
+        void onComplete();
+    }
+
+    public void addPost(Post post, AddPostListener listener) {
+        modelFirebase.addPost(post, () -> {
+            listener.onComplete();
+           // refreshPostList();
+        });
+    }
+
     public static final Model instance = new Model();
 
     Map<String, String> map = new HashMap<String,String>();     //Temporary instead of out DB
