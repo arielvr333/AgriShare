@@ -20,17 +20,6 @@ public class ModelFireBase {
     }
 
 
-    /*              // check if user that opened the app still logged in (need to be in the first activity)
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null)
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            reload();       //go to home page
-        }
-    }
-     */
 
     public interface loginListener{
         void onComplete(boolean bool);
@@ -46,6 +35,8 @@ public class ModelFireBase {
                 listener.onComplete(true);
             }
         }).addOnFailureListener(e -> listener.onComplete(false));
+
+
     }
 
     public static void registerUser(final String Email, final String name, String password,String address,String phoneNumber, RegisterListener listener) {
