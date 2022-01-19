@@ -23,11 +23,11 @@ public class AddPostFragment extends Fragment {
     EditText Price;
     Button saveBtn;
     Button cancelBtn;
-    View aravi;
+    View v;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_add, container, false);
-
+        v = view;
         Title = view.findViewById(R.id.addpost_title);
         Post = view.findViewById(R.id.addpost_post);
         Address = view.findViewById(R.id.addpost_address);
@@ -35,7 +35,6 @@ public class AddPostFragment extends Fragment {
         saveBtn = view.findViewById(R.id.addspost_save_btn);
         cancelBtn = view.findViewById(R.id.addpost_cancel_btn);
         saveBtn.setOnClickListener(v -> {
-            aravi=v;
             save();
             Navigation.findNavController(v).navigateUp();
         });
@@ -56,7 +55,7 @@ public class AddPostFragment extends Fragment {
         String address = Address.getText().toString();
         String price = Price.getText().toString();
         Post nPost = new Post(title, post, address, price);
-        Model.instance.addPost(nPost, () -> { Navigation.findNavController(aravi).navigateUp();});
+        Model.instance.addPost(nPost);
 /*
         if (imageBitmap == null) {
             Model.instance.addStudent(student, () -> {

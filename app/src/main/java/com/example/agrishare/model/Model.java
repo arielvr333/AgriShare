@@ -11,11 +11,8 @@ public class Model {
         void onComplete();
     }
 
-    public void addPost(Post post, AddPostListener listener) {
-        modelFirebase.addPost(post, () -> {
-            listener.onComplete();
-           // refreshPostList();
-        });
+    public void addPost(Post post) {
+        modelFirebase.addPost(post);
     }
 
     public static final Model instance = new Model();
