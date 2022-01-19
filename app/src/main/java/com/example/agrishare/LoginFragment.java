@@ -1,6 +1,5 @@
 package com.example.agrishare;
 
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,15 +10,12 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.example.agrishare.model.ModelFireBase;
-
 public class LoginFragment extends Fragment {
 
     private EditText username;
     private EditText password;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
 
     private String mParam1;
     private String mParam2;
@@ -52,9 +48,7 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-
         username = view.findViewById(R.id.loginfrag_userName_txt);
         password = view.findViewById(R.id.loginfrag_pass_txt);
         view.findViewById(R.id.loginfrag_register_btn).setOnClickListener
