@@ -24,7 +24,7 @@
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/addTitle_tx"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/addTitle_tx" />
 
     <TextView
@@ -32,13 +32,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="28dp"
         android:text="Post:"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/addpost_post"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addTitle_tx" />
+
+    <EditText
+        android:id="@+id/addpost_post"
+        android:layout_width="332dp"
+        android:layout_height="125dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/addpost_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addpost_title"
+        app:layout_constraintVertical_bias="0.703" />
 
     <EditText
         android:id="@+id/addpost_address"
@@ -58,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="104dp"
         android:text="Address"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,20 +83,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="172dp"
         android:text="Price"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/addpost_price"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.815"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addpost_tx" />
+
+    <EditText
+        android:id="@+id/addpost_price"
+        android:layout_width="210dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="11dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/addspost_save_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addpost_address"
+        app:layout_constraintVertical_bias="0.045" />
 
     <TextView
         android:id="@+id/addTitle_tx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="56dp"
         android:lineSpacingExtra="14sp"
         android:text="Title:"
         android:textSize="24sp"
@@ -90,12 +118,22 @@
         app:layout_constraintTop_toBottomOf="@+id/addpost_imageView" />
 
     <Button
-        android:id="@+id/addpost_cancel_btn"
+        android:id="@+id/upload_photo_btn"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Upload Photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addpost_imageView" />
+
+    <Button
+        android:id="@+id/addpost_cancel_btn"
+        android:layout_width="134dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#8BC34A"
         android:text="CANCEL"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/addspost_save_btn"
         app:layout_constraintEnd_toStartOf="@+id/addspost_save_btn"
         app:layout_constraintStart_toStartOf="parent" />
@@ -108,43 +146,8 @@
         android:layout_marginBottom="18dp"
         android:backgroundTint="#8BC34A"
         android:text="SAVE"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/upload_photo_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Upload Photo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addpost_imageView" />
-
-    <EditText
-        android:id="@+id/addpost_post"
-        android:layout_width="300dp"
-        android:layout_height="153dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/addpost_address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.855"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addpost_title" />
-
-    <EditText
-        android:id="@+id/addpost_price"
-        android:layout_width="294dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="_______________________"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.863"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="568dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

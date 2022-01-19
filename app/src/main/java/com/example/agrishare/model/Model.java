@@ -1,8 +1,5 @@
 package com.example.agrishare.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Model {
 
 
@@ -16,27 +13,23 @@ public class Model {
     }
 
     public static final Model instance = new Model();
+//
+//    public Executor executor = Executors.newFixedThreadPool(1);
+//    public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
+//
 
-    Map<String, String> map = new HashMap<String,String>();     //Temporary instead of out DB
+//    public enum StudentListLoadingState {
+//        loading,
+//        loaded
+//    }
+//
+//    MutableLiveData<StudentListLoadingState> studentListLoadingState = new MutableLiveData<StudentListLoadingState>();
+//
+//    public LiveData<StudentListLoadingState> getStudentListLoadingState() {
+//        return studentListLoadingState;
+//    }
 
-
-    private Model(){}
-
-
-    public boolean logIn(String userName,String password){      // log in function in ModelFireBase
-        String pas = map.get(userName);
-        if (pas!=null){
-            return pas.equals(password);
-        }
-        return false;
-    }
-
-    public boolean register(String userName,String password){       // register function in ModelFireBase
-        String pas = map.get(userName);
-        if (pas!=null){
-            return false;
-        }
-        map.put(userName, password);
-        return true;
+    private Model() {
+      //  studentListLoadingState.setValue(StudentListLoadingState.loaded);
     }
 }
