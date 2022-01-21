@@ -18,35 +18,32 @@ public class ModelFireBase {
     private  static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ModelFireBase(){
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(false)
-                .build();
-        db.setFirestoreSettings(settings);
+//        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+//                .setPersistenceEnabled(false)
+//                .build();
+//        db.setFirestoreSettings(settings);
     }
-/*
+
     public interface GetAllPostsListener{
         void onComplete(List<Post> list);
     }
-    //TODO: fix since...
-    public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
+
+    public static void getAllPosts(GetAllPostsListener listener) {
         db.collection(Post.COLLECTION_NAME)
-                .whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
                 .get()
                 .addOnCompleteListener(task -> {
-                    List<Post> list = new LinkedList<Post>();
+                    List<Post> list = new LinkedList<>();
                     if (task.isSuccessful()){
+                        Log.d("tag","successful");
                         for (QueryDocumentSnapshot doc : task.getResult()){
                             Post post = Post.create(doc.getData());
-                            if (post != null){
-                                list.add(post);
-                            }
+                            list.add(post);
                         }
                     }
+                    Log.d("tag","finished getAlPosts");
                     listener.onComplete(list);
                 });
     }
-
- */
 
 
 

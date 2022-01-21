@@ -67,7 +67,7 @@ public class LoginFragment extends Fragment {
             } else {
                 com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password, bool -> {
                     if (bool)
-                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_homeFragment);
+                        Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_postListRvFragment);
                     else
                         Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
                 });

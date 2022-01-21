@@ -1,33 +1,25 @@
 package com.example.agrishare.model;
 
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-
-import java.util.HashMap;
-import java.util.Map;
-
-/*
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.FieldValue;
-
 import java.util.HashMap;
 import java.util.Map;
-*/
 
+
+@Entity
 public class Post {
         final public static String COLLECTION_NAME = "Posts";
+        @PrimaryKey
+        @NonNull
         String Title = "";
         String Post = "";
         Long updateDate = new Long(0);
         String avatarUrl;
         String Address = "";
         String Price = "";
-        String Id= "1";
+        String Id= "3";
 
 
         public void setUpdateDate(Long updateDate) {
