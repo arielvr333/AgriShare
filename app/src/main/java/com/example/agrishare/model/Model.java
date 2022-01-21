@@ -28,7 +28,7 @@ public class Model {
         modelFirebase.addPost(post);
     }
 
-    public void getloggeduser(User user)
+    public void setLoggedUser(User user)
     {
         this.user=user;
     }
