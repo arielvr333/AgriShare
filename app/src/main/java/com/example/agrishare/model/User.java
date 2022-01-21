@@ -9,15 +9,16 @@ public class User {
     String Email;
     String Address;
     String phoneNumber;
-    int Id;
-    List<Post> posts =new ArrayList<>();
+    String Id;
+    List<Post> posts;
 
-    public User(String name, String Email, int Id, String address,String PhoneNumber){
+    public User(String name, String Email, String Id, String address,String PhoneNumber){
         this.Name = name;
         this.Email = Email;
         this.Address = address;
         this.phoneNumber = PhoneNumber;
         this.Id=Id;
+        this.posts = new ArrayList<>();
     }
     public String getName() {
         return Name;
@@ -51,12 +52,15 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 
+    public List<Post> getPosts() { return posts; }
+
+    public void setPosts(List<Post> posts) { this.posts = posts; }
 }

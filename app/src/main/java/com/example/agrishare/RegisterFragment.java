@@ -71,7 +71,7 @@ public class RegisterFragment extends Fragment {
             } else {
                ModelFireBase.registerUser(username.getText().toString(), fullName.getText().toString(), password.getText().toString(),address.getText().toString(), phoneNumber.getText().toString(), bool -> {
                    if (bool)
-                       Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_homeFragment);
+                       Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_postListRvFragment);
                    else
                        Toast.makeText(getContext(), "please choose a different username", Toast.LENGTH_LONG).show();
                });

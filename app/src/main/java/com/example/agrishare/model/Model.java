@@ -17,14 +17,20 @@ import java.util.concurrent.Executors;
 
 public class Model {
 
-
+    User user=null;
     ModelFireBase modelFirebase = new ModelFireBase();
     public interface AddPostListener {
         void onComplete();
     }
 
     public void addPost(Post post) {
+
         modelFirebase.addPost(post);
+    }
+
+    public void getloggeduser(User user)
+    {
+        this.user=user;
     }
 
     public static final Model instance = new Model();
@@ -35,10 +41,10 @@ public class Model {
         void onComplete(List<Post> list);
     }
 
-    MutableLiveData<List<Post>> studentsList = new MutableLiveData<List<Post>>();
+    MutableLiveData<List<Post>> postsList = new MutableLiveData<List<Post>>();
 
     public LiveData<List<Post>> getAll() {
-        return studentsList;
+        return postsList;
     }
 
 
