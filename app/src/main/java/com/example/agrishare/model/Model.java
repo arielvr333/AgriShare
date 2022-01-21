@@ -4,13 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.agrishare.MYApplication;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -23,17 +20,22 @@ public class Model {
         void onComplete();
     }
 
-    public void addPost(String title,String post,String address,String price) {
-        String userId = user.getId();
-        String postsNum =Integer.toString(user.getPosts().size());
-        Post newPost = new Post(title, post, address , price, userId + "."+ postsNum);
-        modelFirebase.addPost(newPost);
-        user.posts.add(newPost);
+    private Model() {
+        //  postListLoadingState.setValue(PostListLoadingState.loaded);
     }
 
-    public void setLoggedUser(User user)
-    {
+    public void addPost(String title,String post,String address,String price) {
+        String userId = this.user.getId();
+        String postsNum =Integer.toString(this.user.getPosts().size() + 1);
+        Post newPost = new Post(title, post, address , price, userId + "."+ postsNum);
+        modelFirebase.addPost(newPost);
+        this.user.posts.add(newPost);
+        modelFirebase.updateUserPostList(this.user);
+    }
+
+    public void setLoggedUser(User user){
         this.user=user;
+
     }
 
     public static final Model instance = new Model();
@@ -44,7 +46,7 @@ public class Model {
         void onComplete(List<Post> list);
     }
 
-    MutableLiveData<List<Post>> postsList = new MutableLiveData<List<Post>>();
+    MutableLiveData<List<Post>> postsList = new MutableLiveData<>();
 
     public LiveData<List<Post>> getAll() {
         return postsList;
@@ -68,19 +70,16 @@ public class Model {
             List<Post> postList = AppLocalDB.db.PostDao().getAll();
         }));
 
-//    public enum StudentListLoadingState {
+//    public enum PostListLoadingState {
 //        loading,
 //        loaded
 //    }
 //
-//    MutableLiveData<StudentListLoadingState> studentListLoadingState = new MutableLiveData<StudentListLoadingState>();
+//    MutableLiveData<PostListLoadingState> postListLoadingState = new MutableLiveData<PostListLoadingState>();
 //
-//    public LiveData<StudentListLoadingState> getStudentListLoadingState() {
-//        return studentListLoadingState;
+//    public LiveData<PostListLoadingState> getPostListLoadingState() {
+//        return postListLoadingState;
 //    }
     }
-    private Model() {
-            //  studentListLoadingState.setValue(StudentListLoadingState.loaded);
-        }
 
 }

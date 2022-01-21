@@ -1,8 +1,6 @@
 package com.example.agrishare.model;
 
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.LinkedList;
@@ -47,18 +45,16 @@ public class ModelFireBase {
     }
 
     public static void getLoggedUser(String username) {
-        DocumentReference docRef = db.collection("Users").document(username);
-        docRef.get().addOnCompleteListener(task -> {
+        db.collection("Users").document(username).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                if (task.isSuccessful()) {
-                    String Name = (String) task.getResult().getData().get("name");
-                    String Email = (String) task.getResult().getData().get("email");
-                    String Id = (String) task.getResult().getData().get("id");
-                    String Address = (String) task.getResult().getData().get("address");
-                    String Phonenumber = (String) task.getResult().getData().get("phoneNumber");
-                    User user = new User(Name, Email, Id, Address, Phonenumber);
-                    Model.instance.setLoggedUser(user);
-                }
+                String Name = (String) task.getResult().getData().get("name");
+                String Email = (String) task.getResult().getData().get("email");
+                String Id = (String) task.getResult().getData().get("id");
+                String Address = (String) task.getResult().getData().get("address");
+                String Phonenumber = (String) task.getResult().getData().get("phoneNumber");
+                User user = new User(Name, Email, Id, Address, Phonenumber);
+                user.posts = (List<Post>) task.getResult().getData().get("posts");
+                Model.instance.setLoggedUser(user);
             }
         });
     }
@@ -93,6 +89,14 @@ public class ModelFireBase {
                 //.addOnFailureListener(e -> listener.onComplete());
     }
 
+    public void updateUserPostList(User user) {
+        db.collection("Users").document(user.getEmail()).update("posts",user.getPosts());
+    }
+
+    public void deletePost(User user, String postId){
+        db.collection("post.COLLECTION_NAME").document(postId).delete();
+        updateUserPostList(user);
+    }
 
     public interface loginListener{
         void onComplete(boolean bool);
