@@ -2,6 +2,7 @@ package com.example.agrishare.model;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ModelFireBase {
 
 
     public static void getAllPosts(GetAllPostsListener listener) {
-        db.collection(Post.COLLECTION_NAME)
+        db.collection(Post.COLLECTION_NAME).orderBy("Id",Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Post> list = new LinkedList<>();
@@ -83,7 +84,7 @@ public class ModelFireBase {
     public void addPost(Post post) {
         Map<String, Object> nPost = post.toDB();
         db.collection(post.COLLECTION_NAME)
-                .document(post.getId())
+                .document(Long.toString(post.getId()))
                 .set(nPost);
                // .addOnSuccessListener(unused -> listener.onComplete())
                 //.addOnFailureListener(e -> listener.onComplete());

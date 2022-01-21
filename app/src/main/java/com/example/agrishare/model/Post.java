@@ -19,7 +19,7 @@ public class Post {
         String avatarUrl;
         String Address = "";
         String Price = "";
-        String Id;
+        Long Id;
 
 
         public void setUpdateDate(Long updateDate) {
@@ -28,7 +28,7 @@ public class Post {
 
         public Post(){}
 
-    public Post(String title, String post, String address, String price,String id) {
+    public Post(String title, String post, String address, String price,Long id) {
         Title = title;
         Post = post;
         Address = address;
@@ -36,11 +36,11 @@ public class Post {
         Id=id;
     }
 
-    public String getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         Id = id;
     }
 
@@ -93,7 +93,7 @@ public class Post {
             String Post = (String) DBpost.get("Post");
             String Address = (String) DBpost.get("Address");
             String Price = (String) DBpost.get("Price");
-            String Id = (String) DBpost.get("Id");
+            Long Id = (Long) DBpost.get("Id");
             //Timestamp ts = (Timestamp)DBpost.get("updateDate");
             //Long updateDate = ts.getSeconds();
           //  String avatarUrl = (String)DBpost.get("avatarUrl");
