@@ -25,9 +25,7 @@ public class Model {
     }
 
     public void addPost(String title,String post,String address,String price) {
-        String userId = this.user.getId();
-        String postsNum =Integer.toString(this.user.getPosts().size() + 1);
-        Post newPost = new Post(title, post, address , price, userId + "."+ postsNum);
+        Post newPost = new Post(title, post, address , price, System.currentTimeMillis());
         modelFirebase.addPost(newPost);
         this.user.posts.add(newPost);
         modelFirebase.updateUserPostList(this.user);

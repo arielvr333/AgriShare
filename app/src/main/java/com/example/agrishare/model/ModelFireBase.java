@@ -83,7 +83,7 @@ public class ModelFireBase {
     public void addPost(Post post) {
         Map<String, Object> nPost = post.toDB();
         db.collection(post.COLLECTION_NAME)
-                .document(post.getId())
+                .document(Long.toString(post.getId()))
                 .set(nPost);
                // .addOnSuccessListener(unused -> listener.onComplete())
                 //.addOnFailureListener(e -> listener.onComplete());
