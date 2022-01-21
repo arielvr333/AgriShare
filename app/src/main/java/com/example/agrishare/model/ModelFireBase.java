@@ -1,23 +1,18 @@
 package com.example.agrishare.model;
 
-import android.util.Log;
 
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.Source;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ModelFireBase {
 
     private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();;
-    private  static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ModelFireBase(){
 //        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -35,9 +30,6 @@ public class ModelFireBase {
         void onComplete(List<User> list);
     }
 
-    public interface GetUserListener{
-        void onComplete(User user);
-    }
 
     public static void getAllPosts(GetAllPostsListener listener) {
         db.collection(Post.COLLECTION_NAME)
@@ -45,34 +37,30 @@ public class ModelFireBase {
                 .addOnCompleteListener(task -> {
                     List<Post> list = new LinkedList<>();
                     if (task.isSuccessful()){
-                        Log.d("tag","successful");
                         for (QueryDocumentSnapshot doc : task.getResult()){
                             Post post = Post.create(doc.getData());
                             list.add(post);
                         }
                     }
-                    Log.d("tag","finished getAlPosts");
                     listener.onComplete(list);
                 });
     }
-//const snapshot = await firebase.firestore().collection('events').get()
-//    return snapshot.docs.map(doc => doc.data());
-    public static void getLoggedUser(GetUserListener listener, String username) {
-    db.collection("Users").document(username)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        Log.d("tag","successful");
-                            String Name = (String) task.getResult().getData().get("name");
-                            String Email = (String) task.getResult().getData().get("email");
-                            String Id = (String) task.getResult().getData().get("id");
-                            String Address = (String)task.getResult().getData().get("address");
-                            String Phonenumber = (String) task.getResult().getData().get("phoneNumber");
-                            User user = new User(Name,Email,Id,Address,Phonenumber);
-                            System.out.println(user.getName());
-                            listener.onComplete(user);
-                        }
-                });
+
+    public static void getLoggedUser(String username) {
+        DocumentReference docRef = db.collection("Users").document(username);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.isSuccessful()) {
+                    String Name = (String) task.getResult().getData().get("name");
+                    String Email = (String) task.getResult().getData().get("email");
+                    String Id = (String) task.getResult().getData().get("id");
+                    String Address = (String) task.getResult().getData().get("address");
+                    String Phonenumber = (String) task.getResult().getData().get("phoneNumber");
+                    User user = new User(Name, Email, Id, Address, Phonenumber);
+                    Model.instance.setLoggedUser(user);
+                }
+            }
+        });
     }
 
     public static void getAllUsers(GetAllUsersListener listener) {
@@ -81,7 +69,6 @@ public class ModelFireBase {
                 .addOnCompleteListener(task -> {
                     List<User> list = new LinkedList<>();
                     if (task.isSuccessful()){
-                        Log.d("tag","successful");
                         for (QueryDocumentSnapshot doc : task.getResult()){
                             String Name = (String) doc.getData().get("name");
                             String Email = (String) doc.getData().get("email");
@@ -92,7 +79,6 @@ public class ModelFireBase {
                             list.add(user);
                         }
                     }
-                    Log.d("tag","finished getAlPosts");
                     listener.onComplete(list);
                 });
     }
@@ -119,7 +105,7 @@ public class ModelFireBase {
     public static void loginUser(String email, String password, loginListener listener) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                getLoggedUser(Model.instance::setLoggedUser, email);
+                getLoggedUser(email);
                 listener.onComplete(true);
             }
         }).addOnFailureListener(e -> listener.onComplete(false));
@@ -133,7 +119,7 @@ public class ModelFireBase {
                 String id=Integer.toString(size);
                 User newUser = new User(name, Email, id, address, phoneNumber);
                 Model.instance.setLoggedUser(newUser);
-                db.collection("Users").document(name).set(newUser);
+                db.collection("Users").document(Email).set(newUser);
             });
          });
     }

@@ -23,9 +23,12 @@ public class Model {
         void onComplete();
     }
 
-    public void addPost(Post post) {
-
-        modelFirebase.addPost(post);
+    public void addPost(String title,String post,String address,String price) {
+        String userId = user.getId();
+        String postsNum =Integer.toString(user.getPosts().size());
+        Post newPost = new Post(title, post, address , price, userId + "."+ postsNum);
+        modelFirebase.addPost(newPost);
+        user.posts.add(newPost);
     }
 
     public void setLoggedUser(User user)
@@ -51,28 +54,19 @@ public class Model {
     public void getAllPosts(GetAllPostsListener listener) {
         executor.execute(() -> {
             List<Post> list = AppLocalDB.db.PostDao().getAll();
-            mainThread.post(() -> {
-                listener.onComplete(list);
-            });
+            mainThread.post(() -> listener.onComplete(list));
         });
-
-
-        ModelFireBase.getAllPosts(list -> {
-            // add all records to the local db
-            executor.execute(() -> {
-                Long lud = new Long(0);
-                Log.d("TAG", "firebase returned " + list.size());
-                for (Post post : list)
-                    AppLocalDB.db.PostDao().insertAll(post);
-                MYApplication.getContext()
-                        .getSharedPreferences("TAG", Context.MODE_PRIVATE)
-                        .edit()
-                        .putLong("PostsLastUpdateDate", lud)
-                        .apply();
-
-                List<Post> postList = AppLocalDB.db.PostDao().getAll();
-            });
-        });
+        ModelFireBase.getAllPosts(list -> executor.execute(() -> {
+            Long lud = new Long(0);
+            for (Post post : list)
+                AppLocalDB.db.PostDao().insertAll(post);
+            MYApplication.getContext()
+                    .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                    .edit()
+                    .putLong("PostsLastUpdateDate", lud)
+                    .apply();
+            List<Post> postList = AppLocalDB.db.PostDao().getAll();
+        }));
 
 //    public enum StudentListLoadingState {
 //        loading,

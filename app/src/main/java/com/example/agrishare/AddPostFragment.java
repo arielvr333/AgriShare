@@ -54,8 +54,8 @@ public class AddPostFragment extends Fragment {
         String post = Post.getText().toString();
         String address = Address.getText().toString();
         String price = Price.getText().toString();
-        Post nPost = new Post(title, post, address, price,"0");
-        Model.instance.addPost(nPost);
+       // Post nPost = new Post(title, post, address, price,"0");
+        Model.instance.addPost(title, post, address, price);
 /*
         if (imageBitmap == null) {
             Model.instance.addStudent(student, () -> {
