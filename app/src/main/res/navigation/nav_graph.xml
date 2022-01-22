@@ -51,9 +51,21 @@
         android:id="@+id/postListRvFragment"
         android:name="com.example.agrishare.PostListRvFragment"
         android:label="fragment_posts_list"
-        tools:layout="@layout/fragment_posts_list" >
+        tools:layout="@layout/fragment_posts_list">
         <action
             android:id="@+id/action_postListRvFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
+        <action
+            android:id="@+id/action_postListRvFragment_to_postDetailsFragment"
+            app:destination="@id/postDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailsFragment"
+        android:name="com.example.agrishare.PostDetailsFragment"
+        android:label="PostDetailsFragment"
+        tools:layout="@layout/fragment_post_details">
+        <argument
+            android:name="pos"
+            app:argType="long" />
     </fragment>
 </navigation>

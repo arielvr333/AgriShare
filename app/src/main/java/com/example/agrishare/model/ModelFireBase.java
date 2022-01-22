@@ -1,6 +1,11 @@
 package com.example.agrishare.model;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -27,6 +32,10 @@ public class ModelFireBase {
 
     public interface GetAllUsersListener{
         void onComplete(List<User> list);
+    }
+
+    public interface GetPostListener{
+        void onComplete(Post post);
     }
 
 
@@ -56,6 +65,15 @@ public class ModelFireBase {
                 User user = new User(Name, Email, Id, Address, Phonenumber);
                 user.posts = (List<Post>) task.getResult().getData().get("posts");
                 Model.instance.setLoggedUser(user);
+            }
+        });
+    }
+    public static void getPostById(Long id,GetPostListener listener)
+    {
+        db.collection("post.COLLECTION_NAME").document(String.valueOf(id)).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Post post = Post.create(task.getResult().getData());
+                listener.onComplete(post);
             }
         });
     }

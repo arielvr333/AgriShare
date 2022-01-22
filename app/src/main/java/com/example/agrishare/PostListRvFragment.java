@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -38,16 +41,31 @@ public class PostListRvFragment extends Fragment {
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter();
         list.setAdapter(adapter);
-        ModelFireBase.getAllPosts((modelList)->{
+
+        Model.instance.getAllPosts((modelList)->{
             Log.d("tag", "Got list from model");
             data = modelList;
             adapter.notifyDataSetChanged();});
 
 
-        ImageButton add = view.findViewById(R.id.postlist_add_btn);
-        add.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment);
+//        ModelFireBase.getAllPosts((modelList)->{
+//            Log.d("tag", "Got list from model");
+//            data = modelList;
+//            adapter.notifyDataSetChanged();});
+
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v,int position) {
+               Long stId = data.get(position).getId();
+               Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
+            //    Navigation.findNavController(v).navigate();
+            }
         });
+
+
+        ImageButton add = view.findViewById(R.id.postlist_add_btn);
+        add.setOnClickListener((v)->{ Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment); });
         setHasOptionsMenu(true);
         return view;
     }
@@ -76,6 +94,8 @@ public class PostListRvFragment extends Fragment {
             PriceTv = itemView.findViewById(R.id.listrowPrice);
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
+                Log.d("tag","myview holder - position");
+                Log.d("tag",String.valueOf(pos));
                 listener.onItemClick(v,pos);
             });
         }
@@ -115,19 +135,19 @@ public class PostListRvFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.student_list_menu,menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.menu_add){
-//            Log.d("TAG","ADD...");
-//            return true;
-//        }else {
-//            return super.onOptionsItemSelected(item);
-//        }
-//    }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.post_list_menu,menu);
+    }
+
+   @Override
+   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.addPost_menu){
+            Log.d("TAG","ADD...");
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

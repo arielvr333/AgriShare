@@ -14,8 +14,8 @@ public interface PostDao {
     List<Post> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(Post... students);
+    void insertAll(Post... post);
 
     @Delete
-    void delete(Post student);
+    void delete(Post post);
 }
