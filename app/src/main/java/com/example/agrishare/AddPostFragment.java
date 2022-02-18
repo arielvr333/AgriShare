@@ -5,13 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
-import com.example.agrishare.model.Post;
 import com.example.agrishare.model.Model;
 
 
@@ -54,7 +50,6 @@ public class AddPostFragment extends Fragment {
         String post = Post.getText().toString();
         String address = Address.getText().toString();
         String price = Price.getText().toString();
-       // Post nPost = new Post(title, post, address, price,"0");
         Model.instance.addPost(title, post, address, price);
 /*
         if (imageBitmap == null) {

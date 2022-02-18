@@ -8,22 +8,19 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.agrishare.MYApplication;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class Model {
-
     User user=null;
-    ModelFireBase modelFirebase = new ModelFireBase();
     MutableLiveData<List<Post>> postsList = new MutableLiveData<>();
-    public interface AddPostListener {
-        void onComplete();
-    }
+    public static final Model instance = new Model();
+    public Executor executor = Executors.newFixedThreadPool(1);
+    public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
+    ModelFireBase modelFirebase = new ModelFireBase();
+
+    public interface AddPostListener { void onComplete();}
 
     private Model() {
         //  postListLoadingState.setValue(PostListLoadingState.loaded);
@@ -36,59 +33,60 @@ public class Model {
         modelFirebase.updateUserPostList(this.user);
     }
 
-
     public void editPost(String title,String post,String address,String price,Long id) {
         Post tempPost=null;
         for (Post p:postsList.getValue())
-            if(p.getId().equals(id))
-                tempPost=p;
+            if(p.getId().equals(id)) {
+                tempPost = p;
+                this.user.posts.remove(p);
+            }
         tempPost.setTitle(title);
         tempPost.setPost(post);
         tempPost.setAddress(address);
         tempPost.setPrice(price);
         modelFirebase.addPost(tempPost);
-        for (Post p:this.user.posts)
-            if(p.getId().equals(id))
-            {
-                this.user.posts.remove(p);
-                this.user.posts.add(tempPost);
-                break;
-            }
+        this.user.posts.add(tempPost);
         modelFirebase.updateUserPostList(this.user);
     }
 
     public void setLoggedUser(User user){ this.user=user; }
-    public static final Model instance = new Model();
-    public Executor executor = Executors.newFixedThreadPool(1);
-    public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
+
+    public User getUser() { return user; }
+
     public interface GetAllPostsListener { void onComplete(List<Post> list);}
+
     public LiveData<List<Post>> getAll() { return postsList; }
-    public Post getPostById(Long id)
-    {
+
+    public Post getPostById(Long id){
         for (Post p:postsList.getValue())
             if(p.getId().equals(id))
                 return p;
-
             return null;
-
     }
     public void getAllPosts(GetAllPostsListener listener) {
-        executor.execute(() -> {
-            List<Post> list = AppLocalDB.db.PostDao().getAll();
-            mainThread.post(() -> listener.onComplete(list));
+//        executor.execute(() -> {
+//            List<Post> list = AppLocalDB.db.PostDao().getAll();
+//            mainThread.post(() -> listener.onComplete(list));
+//        });
+        modelFirebase.getAllPosts(list -> {
+            postsList.setValue(list);
+            listener.onComplete(list);
         });
-        ModelFireBase.getAllPosts(list -> executor.execute(() -> {
-            Long lud = new Long(0);
-            for (Post post : list)
-                AppLocalDB.db.PostDao().insertAll(post);
-            MYApplication.getContext()
-                    .getSharedPreferences("TAG", Context.MODE_PRIVATE)
-                    .edit()
-                    .putLong("PostsLastUpdateDate", lud)
-                    .apply();
-            List<Post> postList = AppLocalDB.db.PostDao().getAll();
-            postsList.setValue(postList);
-        }));
+            //     Long lud = new Long(0);
+//            Log.d("TAG", "firebase returned " + list.size());
+//            for (Post post : list) {
+//                Log.d("tag", post.getTitle());
+//                Log.d("tag", "inserting post");
+//                AppLocalDB.db.PostDao().insertAll(post);
+//            }
+//            Log.d("tag", "inserted all posts");
+//            MYApplication.getContext()
+//                    .getSharedPreferences("TAG", Context.MODE_PRIVATE)
+//                    .edit()
+//                   // .putLong("PostsLastUpdateDate", lud)
+//                    .commit();
+//            List<Post> postList = AppLocalDB.db.PostDao().getAll();
+//        });
 
 //    public enum PostListLoadingState {
 //        loading,
@@ -102,4 +100,14 @@ public class Model {
 //    }
     }
 
+    public void loginUser(String email, String password, ModelFireBase.loginListener listener){
+        modelFirebase.loginUser(email,password,listener);
+    }
+
+    public void registerUser(String Email, String name, String password,String address,String phoneNumber, ModelFireBase.RegisterListener listener){
+        modelFirebase.registerUser(Email, name, password, address, phoneNumber, listener);
+    }
+    public boolean isSignedIn() {
+        return modelFirebase.isSignedIn();
+    }
 }

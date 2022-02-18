@@ -2,7 +2,6 @@ package com.example.agrishare;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,17 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.agrishare.model.Model;
-import com.example.agrishare.model.ModelFireBase;
 import com.example.agrishare.model.Post;
-
 import java.util.List;
 
 public class PostListRvFragment extends Fragment {
     List<Post> data;
     ProgressBar progressBar;
     MyAdapter adapter;
+
+    @SuppressLint("NotifyDataSetChanged")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,29 +41,17 @@ public class PostListRvFragment extends Fragment {
         list.setAdapter(adapter);
 
         Model.instance.getAllPosts((modelList)->{
-            Log.d("tag", "Got list from model");
             data = modelList;
-            adapter.notifyDataSetChanged();});
-
-
-//        ModelFireBase.getAllPosts((modelList)->{
-//            Log.d("tag", "Got list from model");
-//            data = modelList;
-//            adapter.notifyDataSetChanged();});
-
-
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View v,int position) {
-               Long stId = data.get(position).getId();
-               Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(stId));
-            //    Navigation.findNavController(v).navigate();
-            }
+            adapter.notifyDataSetChanged();
         });
 
+        adapter.setOnItemClickListener((v, position) -> {
+           Long Id = data.get(position).getId();
+           Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(Id));
+        });
 
         ImageButton add = view.findViewById(R.id.postlist_add_btn);
-        add.setOnClickListener((v)->{ Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment); });
+        add.setOnClickListener((v)-> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
         setHasOptionsMenu(true);
         return view;
     }
@@ -73,7 +59,6 @@ public class PostListRvFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void refresh(){
         Model.instance.getAllPosts((list)->{
-            Log.d("tag", "Got list from model");
             data = list;
             adapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
@@ -94,8 +79,6 @@ public class PostListRvFragment extends Fragment {
             PriceTv = itemView.findViewById(R.id.listrowPrice);
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
-                Log.d("tag","myview holder - position");
-                Log.d("tag",String.valueOf(pos));
                 listener.onItemClick(v,pos);
             });
         }
@@ -143,11 +126,9 @@ public class PostListRvFragment extends Fragment {
 
    @Override
    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addPost_menu){
-            Log.d("TAG","ADD...");
+        if (item.getItemId() == R.id.addPost_menu)
             return true;
-        }else {
+        else
             return super.onOptionsItemSelected(item);
-        }
     }
 }

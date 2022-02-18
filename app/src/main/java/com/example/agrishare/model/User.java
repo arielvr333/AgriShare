@@ -1,7 +1,6 @@
 package com.example.agrishare.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class User {
 
@@ -10,7 +9,7 @@ public class User {
     String Address;
     String phoneNumber;
     String Id;
-    List<Post> posts;
+    ArrayList<Post> posts;
 
     public User(String name, String Email, String Id, String address,String PhoneNumber){
         this.Name = name;
@@ -60,7 +59,7 @@ public class User {
         Id = id;
     }
 
-    public List<Post> getPosts() { return posts; }
+    public ArrayList<Post> getPosts() { return posts; }
 
-    public void setPosts(List<Post> posts) { this.posts = posts; }
+    public void setPosts(ArrayList<Post> posts) { this.posts = posts; }
 }

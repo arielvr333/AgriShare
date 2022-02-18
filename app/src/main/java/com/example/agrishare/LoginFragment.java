@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.agrishare.model.Model;
 import com.example.agrishare.model.ModelFireBase;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -65,7 +66,7 @@ public class LoginFragment extends Fragment {
             if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)) {
                 Toast.makeText(getContext(), "please enter email and password!", Toast.LENGTH_LONG).show();
             } else {
-                com.example.agrishare.model.ModelFireBase.loginUser(txt_email, txt_password, bool -> {
+                Model.instance.loginUser(txt_email, txt_password, bool -> {
                     if (bool)
                         Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_postListRvFragment);
                     else

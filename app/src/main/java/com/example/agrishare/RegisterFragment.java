@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.example.agrishare.model.Model;
 import com.example.agrishare.model.ModelFireBase;
 
 public class RegisterFragment extends Fragment {
@@ -69,7 +71,7 @@ public class RegisterFragment extends Fragment {
             } else if (password.length() < 6){
                 Toast.makeText(getContext(), "Password too short!", Toast.LENGTH_SHORT).show();
             } else {
-               ModelFireBase.registerUser(username.getText().toString(), fullName.getText().toString(), password.getText().toString(),address.getText().toString(), phoneNumber.getText().toString(), bool -> {
+                Model.instance.registerUser(username.getText().toString(), fullName.getText().toString(), password.getText().toString(),address.getText().toString(), phoneNumber.getText().toString(), bool -> {
                    if (bool)
                        Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_postListRvFragment);
                    else

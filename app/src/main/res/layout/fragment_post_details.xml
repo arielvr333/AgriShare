@@ -31,7 +31,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.208"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details_post_publisher" />
 
     <TextView
         android:id="@+id/details_name_tv"
@@ -43,17 +44,6 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_post_img" />
-
-    <TextView
-        android:id="@+id/details_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="12dp"
-        android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/details_name_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/details_name_tv" />
 
     <TextView
         android:id="@+id/details_id_tv"
@@ -74,45 +64,21 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.821" />
-
-    <TextView
-        android:id="@+id/details_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="12dp"
-        android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/details_address_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/details_address_tv" />
-
-    <TextView
-        android:id="@+id/details_price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="12dp"
-        android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/details_phone_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/details_phone_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/details_address"
+        app:layout_constraintVertical_bias="0.218" />
 
     <TextView
         android:id="@+id/details_phone_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="24dp"
         android:text="Price:"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details_id_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/details_post" />
 
     <TextView
         android:id="@+id/details_address_tv"
@@ -138,16 +104,51 @@
 
     <EditText
         android:id="@+id/details_post"
-        android:layout_width="326dp"
-        android:layout_height="190dp"
+        android:layout_width="322dp"
+        android:layout_height="178dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/details_price"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.823"
+        app:layout_constraintHorizontal_bias="0.786"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/details_title"
-        app:layout_constraintVertical_bias="0.465" />
+        app:layout_constraintTop_toBottomOf="@+id/details_title" />
+
+    <EditText
+        android:id="@+id/details_price"
+        android:layout_width="317dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toEndOf="@+id/details_phone_tv"
+        app:layout_constraintTop_toBottomOf="@+id/details_post" />
+
+    <EditText
+        android:id="@+id/details_title"
+        android:layout_width="313dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintStart_toEndOf="@+id/details_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/details_post_img" />
+
+    <EditText
+        android:id="@+id/details_address"
+        android:layout_width="275dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintStart_toEndOf="@+id/details_address_tv"
+        app:layout_constraintTop_toBottomOf="@+id/details_price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
