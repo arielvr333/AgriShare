@@ -9,7 +9,6 @@ public class User {
     String Address;
     String phoneNumber;
     String Id;
-    ArrayList<Post> posts;
 
     public User(String name, String Email, String Id, String address,String PhoneNumber){
         this.Name = name;
@@ -17,7 +16,6 @@ public class User {
         this.Address = address;
         this.phoneNumber = PhoneNumber;
         this.Id=Id;
-        this.posts = new ArrayList<>();
     }
     public String getName() {
         return Name;
@@ -59,7 +57,4 @@ public class User {
         Id = id;
     }
 
-    public ArrayList<Post> getPosts() { return posts; }
-
-    public void setPosts(ArrayList<Post> posts) { this.posts = posts; }
 }

@@ -1,13 +1,10 @@
 package com.example.agrishare.model;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.example.agrishare.MYApplication;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -20,6 +17,10 @@ public class Model {
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     ModelFireBase modelFirebase = new ModelFireBase();
 
+    public boolean userIsWriter(Post post){
+        return this.user.Id.equals(post.getWriterId());
+    }
+
     public interface AddPostListener { void onComplete();}
 
     private Model() {
@@ -27,10 +28,8 @@ public class Model {
     }
 
     public void addPost(String title,String post,String address,String price) {
-        Post newPost = new Post(title, post, address , price, System.currentTimeMillis());
+        Post newPost = new Post(title, post, address , price, System.currentTimeMillis(), user.getId());
         modelFirebase.addPost(newPost);
-        this.user.posts.add(newPost);
-        modelFirebase.updateUserPostList(this.user);
     }
 
     public void editPost(String title,String post,String address,String price,Long id) {
@@ -38,15 +37,12 @@ public class Model {
         for (Post p:postsList.getValue())
             if(p.getId().equals(id)) {
                 tempPost = p;
-                this.user.posts.remove(p);
             }
         tempPost.setTitle(title);
         tempPost.setPost(post);
         tempPost.setAddress(address);
         tempPost.setPrice(price);
         modelFirebase.addPost(tempPost);
-        this.user.posts.add(tempPost);
-        modelFirebase.updateUserPostList(this.user);
     }
 
     public void setLoggedUser(User user){ this.user=user; }

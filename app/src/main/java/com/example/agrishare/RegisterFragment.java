@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.agrishare.model.Model;
-import com.example.agrishare.model.ModelFireBase;
 
 public class RegisterFragment extends Fragment {
 

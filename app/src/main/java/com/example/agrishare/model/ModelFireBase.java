@@ -5,17 +5,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class ModelFireBase {
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ModelFireBase(){}
@@ -51,8 +47,6 @@ public class ModelFireBase {
                 String Address = (String) task.getResult().getData().get("address");
                 String Phonenumber = (String) task.getResult().getData().get("phoneNumber");
                 User user = new User(Name, Email, Id, Address, Phonenumber);
-                user.setPosts((ArrayList<Post>) task.getResult().getData().get("posts"));
-                System.out.println(user.posts);
                 Model.instance.setLoggedUser(user);
             }
         });
@@ -88,13 +82,8 @@ public class ModelFireBase {
                 //.addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void updateUserPostList(User user) {
-        db.collection("Users").document(user.getEmail()).update("posts",user.getPosts());
-    }
-
-    public void deletePost(User user, String postId){
+    public void deletePost(String postId){
         db.collection("post.COLLECTION_NAME").document(postId).delete();
-        updateUserPostList(user);
     }
 
     public interface loginListener{

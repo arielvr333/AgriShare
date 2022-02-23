@@ -50,14 +50,7 @@ public class PostDetailsFragment extends Fragment {
     }
 
     public void setButtonVisibility(Post post){
-        boolean flag = false;
-        for (int i = 0; i < Model.instance.getUser().getPosts().size() ; i++) {
-            if (Model.instance.getUser().getPosts().get(i).getId().equals(post.getId())) {
-                flag = true;
-                break;
-            }
-        }
-        if(flag) {
+        if(Model.instance.userIsWriter(post)) {
             EditBtn.setVisibility(View.VISIBLE);
             DeleteBtn.setVisibility(View.VISIBLE);
         }

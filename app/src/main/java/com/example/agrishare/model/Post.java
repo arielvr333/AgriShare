@@ -19,16 +19,17 @@ public class Post {
     String Address = "";
     String Price = "";
     Long Id;
+    String writerId;
 
-    public Post() {
-    }
+    public Post() {}
 
-    public Post(String title, String post, String address, String price, Long id) {
+    public Post(String title, String post, String address, String price, Long id, String postWriterId) {
         Title = title;
         Post = post;
         Address = address;
         Price = price;
         Id = id;
+        writerId = postWriterId;
     }
 
     public Long getId() {
@@ -71,6 +72,14 @@ public class Post {
         Price = price;
     }
 
+    public String getWriterId() {
+        return writerId;
+    }
+
+    public void setWriterId(String writerId) {
+        this.writerId = writerId;
+    }
+
     public Map<String, Object> toDB() {
         Map<String, Object> DbPost = new HashMap<>();
         DbPost.put("Title", Title);
@@ -78,25 +87,26 @@ public class Post {
         DbPost.put("Address", Address);
         DbPost.put("Price", Price);
         DbPost.put("Id", Id);
+        DbPost.put("writerId", writerId);
         // DbPost.put("updateDate", FieldValue.serverTimestamp());
         // DbPost.put("avatarUrl",avatarUrl);
         return DbPost;
     }
 
-    public static Post create(Map<String, Object> DBpost) {
-        String Title = (String) DBpost.get("Title");
-        String Post = (String) DBpost.get("Post");
-        String Address = (String) DBpost.get("Address");
-        String Price = (String) DBpost.get("Price");
-        Long Id = (Long) DBpost.get("Id");
-        //Timestamp ts = (Timestamp)DBpost.get("updateDate");
+    public static Post create(Map<String, Object> DbPost) {
+        String Title = (String) DbPost.get("Title");
+        String Post = (String) DbPost.get("Post");
+        String Address = (String) DbPost.get("Address");
+        String Price = (String) DbPost.get("Price");
+        Long Id = (Long) DbPost.get("Id");
+        String writerId = (String) DbPost.get("writerId");
+        //Timestamp ts = (Timestamp)DbPost.get("updateDate");
         //Long updateDate = ts.getSeconds();
-        //  String avatarUrl = (String)DBpost.get("avatarUrl");
+        //  String avatarUrl = (String)DbPost.get("avatarUrl");
 
-        Post nPost = new Post(Title, Post, Address, Price, Id);
         //student.setUpdateDate(updateDate);
         //student.setAvatarUrl(avatarUrl);
-        return nPost;
+        return new Post(Title, Post, Address, Price, Id ,writerId);
     }
 
 //        public Long getUpdateDate() {

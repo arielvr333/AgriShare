@@ -9,10 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import com.example.agrishare.model.Model;
-import com.example.agrishare.model.ModelFireBase;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment {
 
@@ -23,22 +20,21 @@ public class LoginFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
-    private com.example.agrishare.model.ModelFireBase ModelFireBase;
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
-    public LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
+//    public LoginFragment newInstance(String param1, String param2) {
+//        LoginFragment fragment = new LoginFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
