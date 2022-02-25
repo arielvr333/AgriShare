@@ -1,6 +1,8 @@
 package com.example.agrishare;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -20,14 +22,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static Context context;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();;
+    private static final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = getApplicationContext();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -58,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
+
+    public static Context getContext() {
+        return context;
+    }
+
     // check if user that opened the app still logged in (need to be in the first activity)
     /*
     @Override
