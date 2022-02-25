@@ -10,7 +10,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.agrishare.MainActivity;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -24,6 +26,9 @@ public class Model {
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     ModelFireBase modelFirebase = new ModelFireBase();
 
+    public void getPublisherByPost(ModelFireBase.GetAllUsersListener listener) {
+        modelFirebase.getAllUsers(listener);
+    }
     public enum PostListLoadingState {
         loading,
         loaded

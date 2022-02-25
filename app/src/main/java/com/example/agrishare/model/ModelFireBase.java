@@ -1,5 +1,7 @@
 package com.example.agrishare.model;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,7 +53,6 @@ public class ModelFireBase {
             }
         });
     }
-
     public void getAllUsers(GetAllUsersListener listener) {
         db.collection("Users")
                 .get()

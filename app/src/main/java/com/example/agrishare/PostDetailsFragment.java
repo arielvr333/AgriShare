@@ -6,10 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.example.agrishare.model.ModelFireBase;
 import com.example.agrishare.model.Post;
 import com.example.agrishare.model.Model;
+import com.example.agrishare.model.User;
+
+import java.util.List;
 
 
 public class PostDetailsFragment extends Fragment {
@@ -17,6 +24,7 @@ public class PostDetailsFragment extends Fragment {
     EditText Post;
     EditText Price;
     EditText Address;
+    TextView Publisher;
     Button DeleteBtn;
     Button EditBtn;
     Long PId;
@@ -27,6 +35,7 @@ public class PostDetailsFragment extends Fragment {
         Post = view.findViewById(R.id.details_post);
         Price = view.findViewById(R.id.details_price);
         Address = view.findViewById(R.id.details_address);
+        Publisher = view.findViewById(R.id.details_post_publisher);
         PId= PostDetailsFragmentArgs.fromBundle(getArguments()).getPos();
         Post post = Model.instance.getPostById(PId);
         displayPost(post);
@@ -47,16 +56,35 @@ public class PostDetailsFragment extends Fragment {
         Post.setText(post.getPost());
         Price.setText(post.getPrice());
         Address.setText(post.getAddress());
+        Model.instance.getPublisherByPost(new ModelFireBase.GetAllUsersListener() {
+            @Override
+            public void onComplete(List<User> list) {
+                for (int i = 0; i < list.size(); i++) {
+                    if(list.get(i).getId().equals(post.getWriterId()))
+                       Publisher.setText(list.get(i).getName());
+                }
+            }
+        });
     }
 
     public void setButtonVisibility(Post post){
         if(Model.instance.userIsWriter(post)) {
             EditBtn.setVisibility(View.VISIBLE);
             DeleteBtn.setVisibility(View.VISIBLE);
+            Title.setEnabled(true);
+            Post.setEnabled(true);
+            Price.setEnabled(true);
+            Address.setEnabled(true);
+            Publisher.setEnabled(true);
         }
         else{
             EditBtn.setVisibility(View.GONE);
             DeleteBtn.setVisibility(View.GONE);
+            Title.setEnabled(false);
+            Post.setEnabled(false);
+            Price.setEnabled(false);
+            Address.setEnabled(false);
+            Publisher.setEnabled(false);
         }
     }
 
