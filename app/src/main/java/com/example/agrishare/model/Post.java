@@ -3,6 +3,10 @@ package com.example.agrishare.model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +18,7 @@ public class Post {
     @NonNull
     String Title = "";
     String Post = "";
-    // Long updateDate = new Long(0);
+    Long updateDate = new Long(0);
     // String avatarUrl;
     String Address = "";
     String Price = "";
@@ -88,7 +92,7 @@ public class Post {
         DbPost.put("Price", Price);
         DbPost.put("Id", Id);
         DbPost.put("writerId", writerId);
-        // DbPost.put("updateDate", FieldValue.serverTimestamp());
+        DbPost.put("updateDate", FieldValue.serverTimestamp());
         // DbPost.put("avatarUrl",avatarUrl);
         return DbPost;
     }
@@ -100,23 +104,28 @@ public class Post {
         String Price = (String) DbPost.get("Price");
         Long Id = (Long) DbPost.get("Id");
         String writerId = (String) DbPost.get("writerId");
-        //Timestamp ts = (Timestamp)DbPost.get("updateDate");
-        //Long updateDate = ts.getSeconds();
+        Timestamp ts = (Timestamp)DbPost.get("updateDate");
+        Long updateDate = ts.getSeconds();
         //  String avatarUrl = (String)DbPost.get("avatarUrl");
-
-        //student.setUpdateDate(updateDate);
+        Post post = new Post(Title, Post, Address, Price, Id ,writerId);
+        post.setUpdateDate(updateDate);
         //student.setAvatarUrl(avatarUrl);
-        return new Post(Title, Post, Address, Price, Id ,writerId);
+        return post;
     }
 
-//        public Long getUpdateDate() {
-//            return updateDate;
-//        }
-//
+    public Long getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
+
+
 //        public void setAvatarUrl(String url) {
 //            avatarUrl = url;
 //        }
-//
+
 //        public String getAvatarUrl() {
 //            return avatarUrl;
 //        }

@@ -1,6 +1,7 @@
 package com.example.agrishare;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,61 +10,74 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.agrishare.model.Model;
 import com.example.agrishare.model.Post;
-import java.util.List;
 
 public class PostListRvFragment extends Fragment {
-    List<Post> data;
-    ProgressBar progressBar;
     MyAdapter adapter;
+    PostListRvViewModel viewModel;
+    SwipeRefreshLayout swipeRefresh;
 
-    @SuppressLint("NotifyDataSetChanged")
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(PostListRvViewModel.class);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_posts_list,container,false);
-        progressBar = view.findViewById(R.id.postslist_progressbar);
-        progressBar.setVisibility(view.GONE);
         RecyclerView list = view.findViewById(R.id.postslist_rv);
         list.setHasFixedSize(true);
+        swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
+        swipeRefresh.setOnRefreshListener(Model.instance::refreshPostList);
 
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter();
         list.setAdapter(adapter);
-
-        Model.instance.getAllPosts((modelList)->{
-            data = modelList;
-            adapter.notifyDataSetChanged();
-        });
+        /// /////////////////////////////
+//        Model.instance.getAllPosts((modelList)->{
+//            data = modelList;
+//            adapter.notifyDataSetChanged();
+//        });
+//
+//        adapter.setOnItemClickListener((v, position) -> {
+//           Long Id = data.get(position).getId();
+//           Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(Id));
+//        });
+//
+//        ImageButton add = view.findViewById(R.id.postlist_add_btn);
+//        add.setOnClickListener((v)-> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
+//        setHasOptionsMenu(true);
+        /// ////////////////////////////////////
 
         adapter.setOnItemClickListener((v, position) -> {
-           Long Id = data.get(position).getId();
-           Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(Id));
-        });
+            Long Id = viewModel.getData().getValue().get(position).getId();
+            Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(Id));
 
+        });
         ImageButton add = view.findViewById(R.id.postlist_add_btn);
         add.setOnClickListener((v)-> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
         setHasOptionsMenu(true);
+        viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
+        swipeRefresh.setRefreshing(Model.instance.getPostListLoadingState().getValue() == Model.PostListLoadingState.loading);
+        Model.instance.getPostListLoadingState().observe(getViewLifecycleOwner(), studentListLoadingState -> swipeRefresh.setRefreshing(studentListLoadingState == Model.PostListLoadingState.loading));
+
         return view;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void refresh(){
-        Model.instance.getAllPosts((list)->{
-            data = list;
-            adapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
-        });
-    }
+    private void refresh(){adapter.notifyDataSetChanged();}
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView TitleTv;
@@ -103,7 +117,7 @@ public class PostListRvFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Post post = data.get(position);
+            Post post = viewModel.getData().getValue().get(position);
             holder.TitleTv.setText(post.getTitle());
             holder.AddressTv.setText(post.getAddress());
             holder.PostTv.setText(post.getPost());
@@ -112,9 +126,10 @@ public class PostListRvFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            if(data == null)
+            if(viewModel.getData().getValue() == null){
                 return 0;
-            return data.size();
+            }
+            return viewModel.getData().getValue().size();
         }
     }
 

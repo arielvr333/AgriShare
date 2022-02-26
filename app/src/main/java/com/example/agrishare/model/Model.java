@@ -4,15 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.agrishare.MainActivity;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -26,9 +21,6 @@ public class Model {
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     ModelFireBase modelFirebase = new ModelFireBase();
 
-    public void getPublisherByPost(ModelFireBase.GetAllUsersListener listener) {
-        modelFirebase.getAllUsers(listener);
-    }
     public enum PostListLoadingState {
         loading,
         loaded
@@ -43,17 +35,13 @@ public class Model {
         return this.user.Id.equals(post.getWriterId());
     }
 
-    public interface AddPostListener {
-        void onComplete();
-    }
-
     private Model() {
-        //  postListLoadingState.setValue(PostListLoadingState.loaded);
+          postListLoadingState.setValue(PostListLoadingState.loaded);
     }
 
     public void addPost(String title, String post, String address, String price) {
         Post newPost = new Post(title, post, address, price, System.currentTimeMillis(), user.getId());
-        modelFirebase.addPost(newPost);
+        modelFirebase.addPost(newPost, this::refreshPostList);
     }
 
     public void editPost(String title, String post, String address, String price, Long id) {
@@ -66,8 +54,14 @@ public class Model {
         tempPost.setPost(post);
         tempPost.setAddress(address);
         tempPost.setPrice(price);
-        modelFirebase.addPost(tempPost);
+        modelFirebase.addPost(tempPost, this::refreshPostList);
     }
+
+    public void getPublisherByPost(ModelFireBase.GetAllUsersListener listener) {
+        modelFirebase.getAllUsers(listener);
+    }
+
+    public void deletePost(Long id) {modelFirebase.deletePost(id);}
 
     public void setLoggedUser(User user) {
         this.user = user;
@@ -77,11 +71,9 @@ public class Model {
         return user;
     }
 
-    public interface GetAllPostsListener {
-        void onComplete(List<Post> list);
-    }
-
     public LiveData<List<Post>> getAll() {
+        if (postsList.getValue() == null)
+            refreshPostList();
         return postsList;
     }
 
@@ -92,67 +84,35 @@ public class Model {
         return null;
     }
 
-    public void getAllPosts(GetAllPostsListener listener) {
+    public void refreshPostList() {
+        postListLoadingState.setValue(PostListLoadingState.loading);
+        Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("Id",0);
+        Log.d("tag","lastUpdateDate = " + lastUpdateDate);
         executor.execute(() -> {
-            List<Post> list = AppLocalDB.db.PostDao().getAll();
-            mainThread.post(() -> listener.onComplete(list));
-//        });
-            modelFirebase.getAllPosts(pList -> {
-                postsList.setValue(pList);
-                listener.onComplete(pList);
-            });
+            List<Post> PostList = AppLocalDB.db.PostDao().getAll();
+            postsList.postValue(PostList);
+            Log.d("tag","executor list size: " + PostList.size());
+        });
+        modelFirebase.getAllPosts(lastUpdateDate, list -> executor.execute(() -> {
             Long lud = new Long(0);
-            Log.d("TAG", "firebase returned " + list.size());
             for (Post post : list) {
-                Log.d("tag", post.getTitle());
-                Log.d("tag", "inserting post");
+                Log.d("tag","in for loop");
                 AppLocalDB.db.PostDao().insertAll(post);
+                if (lud < post.getUpdateDate()) {
+                    lud = post.getUpdateDate();
+                    Log.d("tag","lud = " + lud.toString());
+                }
             }
-            Log.d("tag", "inserted all posts");
             MainActivity.getContext()
                     .getSharedPreferences("TAG", Context.MODE_PRIVATE)
                     .edit()
                     .putLong("PostsLastUpdateDate", lud)
                     .commit();
-            List<Post> postList = AppLocalDB.db.PostDao().getAll();
-        });
-
+            List<Post> PostList = AppLocalDB.db.PostDao().getAll();
+            postsList.postValue(PostList);
+            postListLoadingState.postValue(PostListLoadingState.loaded);
+        }));
     }
-
-//    public void refreshStudentList() {
-//        postListLoadingState.setValue(postListLoadingState.loading);
-//
-//        // get last local update date
-//        Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("PostsLastUpdateDate", 0);
-//
-//        executor.execute(() -> {
-//            List<Post> stList = AppLocalDB.db.PostDao().getAll();
-//            postsList.postValue(stList);
-//        });
-//
-//        // firebase get all updates since lastLocalUpdateDate
-//        modelFirebase.getAllPosts(list -> {
-//            // add all records to the local db
-//            executor.execute(() -> {
-//                Long lud = new Long(0);
-//                Log.d("TAG", "fb returned " + list.size());
-//                for (Post post : list) {
-//                    AppLocalDB.db.PostDao().insertAll(post);
-//                }
-//                // update last local update date
-//                MainActivity.getContext()
-//                        .getSharedPreferences("TAG", Context.MODE_PRIVATE)
-//                        .edit()
-//                        .putLong("StudentsLastUpdateDate", lud)
-//                        .commit();
-//
-//                //return all data to caller
-//                List<Post> stList = AppLocalDB.db.PostDao().getAll();
-//                postsList.postValue(stList);
-//                postListLoadingState.postValue(postListLoadingState.loaded);
-//            });
-//        });
-//    }
 
     public void loginUser(String email, String password, ModelFireBase.loginListener listener){
         modelFirebase.loginUser(email,password,listener);

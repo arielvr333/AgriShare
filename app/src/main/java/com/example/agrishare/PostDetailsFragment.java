@@ -7,17 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
-import com.example.agrishare.model.ModelFireBase;
 import com.example.agrishare.model.Post;
 import com.example.agrishare.model.Model;
-import com.example.agrishare.model.User;
-
-import java.util.List;
-
 
 public class PostDetailsFragment extends Fragment {
     EditText Title;
@@ -41,7 +34,10 @@ public class PostDetailsFragment extends Fragment {
         displayPost(post);
 
         DeleteBtn = view.findViewById(R.id.details_delete_btn);
-        DeleteBtn.setOnClickListener((v) -> Navigation.findNavController(v).navigateUp());
+        DeleteBtn.setOnClickListener((v) ->{
+            delete(post.getId());
+            Navigation.findNavController(v).navigateUp();
+        });
         EditBtn = view.findViewById(R.id.details_edit_btn);
         EditBtn.setOnClickListener(v -> {
             save();
@@ -56,13 +52,10 @@ public class PostDetailsFragment extends Fragment {
         Post.setText(post.getPost());
         Price.setText(post.getPrice());
         Address.setText(post.getAddress());
-        Model.instance.getPublisherByPost(new ModelFireBase.GetAllUsersListener() {
-            @Override
-            public void onComplete(List<User> list) {
-                for (int i = 0; i < list.size(); i++) {
-                    if(list.get(i).getId().equals(post.getWriterId()))
-                       Publisher.setText(list.get(i).getName());
-                }
+        Model.instance.getPublisherByPost(list -> {
+            for (int i = 0; i < list.size(); i++) {
+                if(list.get(i).getId().equals(post.getWriterId()))
+                   Publisher.setText("posted by : " + list.get(i).getName());
             }
         });
     }
@@ -96,5 +89,9 @@ public class PostDetailsFragment extends Fragment {
         String address = Address.getText().toString();
         String price = Price.getText().toString();
         Model.instance.editPost(title, post, address, price,PId);
+    }
+
+    private void delete(Long Id) {
+        Model.instance.deletePost(Id);
     }
 }

@@ -41,7 +41,6 @@ public class AddPostFragment extends Fragment {
     private void save() {
         saveBtn.setEnabled(false);
         cancelBtn.setEnabled(false);
-        //progressBar.setVisibility(View.VISIBLE);
 
         // camBtn.setEnabled(false);
         //galleryBtn.setEnabled(false);

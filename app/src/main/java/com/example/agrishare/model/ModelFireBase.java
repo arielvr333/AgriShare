@@ -2,6 +2,7 @@ package com.example.agrishare.model;
 
 import android.util.Log;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,6 +19,10 @@ public class ModelFireBase {
 
     public ModelFireBase(){}
 
+    public interface AddPostListener {
+        void onComplete();
+    }
+
     public interface GetAllPostsListener{
         void onComplete(List<Post> list);
     }
@@ -26,16 +31,19 @@ public class ModelFireBase {
         void onComplete(List<User> list);
     }
 
-    public void getAllPosts(GetAllPostsListener listener) {
-        db.collection(Post.COLLECTION_NAME).orderBy("Id",Query.Direction.DESCENDING)
+    public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
+        db.collection(Post.COLLECTION_NAME).whereGreaterThanOrEqualTo("Id",new Timestamp(lastUpdateDate,0))
+                .orderBy("Id",Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Post> list = new LinkedList<>();
                     if (task.isSuccessful())
                         for (QueryDocumentSnapshot doc : task.getResult()){
+                            Log.d("tag","model fb for loop");
                             Post post = Post.create(doc.getData());
                             list.add(post);
                         }
+                    Log.d("tag","model fb list size = " + list.size());
                     listener.onComplete(list);
                 });
     }
@@ -53,19 +61,20 @@ public class ModelFireBase {
             }
         });
     }
+
     public void getAllUsers(GetAllUsersListener listener) {
         db.collection("Users")
                 .get()
                 .addOnCompleteListener(task -> {
                     List<User> list = new LinkedList<>();
-                    if (task.isSuccessful()){
-                        for (QueryDocumentSnapshot doc : task.getResult()){
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
                             String Name = (String) doc.getData().get("name");
                             String Email = (String) doc.getData().get("email");
                             String Id = (String) doc.getData().get("id");
                             String Address = (String) doc.getData().get("address");
                             String Phonenumber = (String) doc.getData().get("phoneNumber");
-                            User user = new User(Name,Email,Id,Address,Phonenumber);
+                            User user = new User(Name, Email, Id, Address, Phonenumber);
                             list.add(user);
                         }
                     }
@@ -73,18 +82,17 @@ public class ModelFireBase {
                 });
     }
 
-
-    public void addPost(Post post) {
+    public void addPost(Post post, AddPostListener listener) {
         Map<String, Object> nPost = post.toDB();
         db.collection(post.COLLECTION_NAME)
                 .document(Long.toString(post.getId()))
-                .set(nPost);
-               // .addOnSuccessListener(unused -> listener.onComplete())
-                //.addOnFailureListener(e -> listener.onComplete());
+                .set(nPost)
+                .addOnSuccessListener(unused -> listener.onComplete())
+                .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void deletePost(String postId){
-        db.collection("post.COLLECTION_NAME").document(postId).delete();
+    public void deletePost(Long postId){
+        db.collection(Post.COLLECTION_NAME).document(postId.toString()).delete();
     }
 
     public interface loginListener{
