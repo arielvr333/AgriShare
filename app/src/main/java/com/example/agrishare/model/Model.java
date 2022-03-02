@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.agrishare.MYApplication;
 import com.example.agrishare.MainActivity;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -86,7 +88,7 @@ public class Model {
 
     public void refreshPostList() {
         postListLoadingState.setValue(PostListLoadingState.loading);
-        Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("Id",0);
+        Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate",0);
         Log.d("tag","lastUpdateDate = " + lastUpdateDate);
         executor.execute(() -> {
             List<Post> PostList = AppLocalDB.db.PostDao().getAll();
@@ -103,11 +105,12 @@ public class Model {
                     Log.d("tag","lud = " + lud.toString());
                 }
             }
-            MainActivity.getContext()
+            MYApplication.getAppContext()
                     .getSharedPreferences("TAG", Context.MODE_PRIVATE)
                     .edit()
                     .putLong("PostsLastUpdateDate", lud)
                     .commit();
+            Log.d("tag","after commit");
             List<Post> PostList = AppLocalDB.db.PostDao().getAll();
             postsList.postValue(PostList);
             postListLoadingState.postValue(PostListLoadingState.loaded);

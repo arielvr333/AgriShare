@@ -6,6 +6,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.LinkedList;
@@ -17,7 +18,12 @@ public class ModelFireBase {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public ModelFireBase(){}
+    public ModelFireBase(){
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        db.setFirestoreSettings(settings);
+    }
 
     public interface AddPostListener {
         void onComplete();
@@ -32,17 +38,19 @@ public class ModelFireBase {
     }
 
     public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
-        db.collection(Post.COLLECTION_NAME).whereGreaterThanOrEqualTo("Id",new Timestamp(lastUpdateDate,0))
-                .orderBy("Id",Query.Direction.DESCENDING)
+        db.collection(Post.COLLECTION_NAME).whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
+                .orderBy("updateDate",Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Post> list = new LinkedList<>();
-                    if (task.isSuccessful())
+                    if (task.isSuccessful()){
+                        Log.d("tag","success");
                         for (QueryDocumentSnapshot doc : task.getResult()){
                             Log.d("tag","model fb for loop");
                             Post post = Post.create(doc.getData());
                             list.add(post);
                         }
+                    }
                     Log.d("tag","model fb list size = " + list.size());
                     listener.onComplete(list);
                 });
