@@ -1,11 +1,20 @@
 package com.example.agrishare;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.example.agrishare.model.Model;
@@ -20,6 +29,7 @@ public class AddPostFragment extends Fragment {
     Button saveBtn;
     Button cancelBtn;
     View v;
+    ImageView avatar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_add, container, false);
@@ -35,7 +45,37 @@ public class AddPostFragment extends Fragment {
             Navigation.findNavController(v).navigateUp();
         });
         cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
+        ImageButton cameraBtn= view.findViewById(R.id.addpost_cam_btn);
+        ImageButton galleryBtn= view.findViewById(R.id.addpost_gallery_btn);
+        avatar = view.findViewById(R.id.addpost_imageView);
+        cameraBtn.setOnClickListener(v -> {
+            openCamera();
+        });
+        galleryBtn.setOnClickListener(v -> {
+            openGalley();
+        });
         return view;
+    }
+    static  final int REQUEST_IMAGE_CAPTURE=1;
+    private void openGalley() {
+    }
+
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+    }
+    Bitmap imageBitMap;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode== REQUEST_IMAGE_CAPTURE) {
+            if (resultCode == RESULT_OK)
+            {
+                Bundle extras=data.getExtras();
+                imageBitMap = (Bitmap) extras.get("data");
+                avatar.setImageBitmap(imageBitMap);
+            }
+        }
     }
 
     private void save() {
@@ -49,7 +89,15 @@ public class AddPostFragment extends Fragment {
         String post = Post.getText().toString();
         String address = Address.getText().toString();
         String price = Price.getText().toString();
-        Model.instance.addPost(title, post, address, price);
+        if(imageBitMap !=null){
+            Model.instance.saveImage(imageBitMap, title + ".jpg", url -> {
+                //POST.SETURL(URL);
+                Model.instance.addPost(title, post, address, price);
+            });
+        }
+        else {
+            Model.instance.addPost(title, post, address, price);
+        }
 /*
         if (imageBitmap == null) {
             Model.instance.addStudent(student, () -> {

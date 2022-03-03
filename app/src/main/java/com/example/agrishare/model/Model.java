@@ -1,6 +1,7 @@
 package com.example.agrishare.model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -22,12 +23,18 @@ public class Model {
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     ModelFireBase modelFirebase = new ModelFireBase();
+    public interface SaveImageListener{
+        void onComplete(String url);
+    }
+    public void saveImage(Bitmap imageBitMap, String imageName,SaveImageListener listener) {
+        ModelFireBase.saveImage(imageBitMap,imageName,listener);
+    }
 
     public enum PostListLoadingState {
         loading,
         loaded
     }
-    MutableLiveData<PostListLoadingState> postListLoadingState = new MutableLiveData<>();
+    MutableLiveData<PostListLoadingState> postListLoadingState = new MutableLiveData<PostListLoadingState>();
 
     public LiveData<PostListLoadingState> getPostListLoadingState() {
         return postListLoadingState;

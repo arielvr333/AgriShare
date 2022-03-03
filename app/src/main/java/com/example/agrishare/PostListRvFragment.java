@@ -77,7 +77,10 @@ public class PostListRvFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void refresh(){adapter.notifyDataSetChanged();}
+    private void refresh(){
+        adapter.notifyDataSetChanged();
+        swipeRefresh.setRefreshing(false);
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView TitleTv;

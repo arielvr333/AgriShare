@@ -24,6 +24,7 @@ public class Post {
     String Price = "";
     Long Id;
     String writerId;
+    private String avatarUrl;
 
     public Post() {}
 
@@ -93,7 +94,7 @@ public class Post {
         DbPost.put("Id", Id);
         DbPost.put("writerId", writerId);
         DbPost.put("updateDate", FieldValue.serverTimestamp());
-        // DbPost.put("avatarUrl",avatarUrl);
+        DbPost.put("avatarUrl",avatarUrl);
         return DbPost;
     }
 
@@ -106,10 +107,10 @@ public class Post {
         String writerId = (String) DbPost.get("writerId");
         Timestamp ts = (Timestamp)DbPost.get("updateDate");
         Long updateDate = ts.getSeconds();
-        //  String avatarUrl = (String)DbPost.get("avatarUrl");
+        String avatarUrl = (String)DbPost.get("avatarUrl");
         Post post = new Post(Title, Post, Address, Price, Id ,writerId);
         post.setUpdateDate(updateDate);
-        //student.setAvatarUrl(avatarUrl);
+        post.setAvatarUrl(avatarUrl);
         return post;
     }
 
@@ -121,12 +122,12 @@ public class Post {
         this.updateDate = updateDate;
     }
 
+    public void setAvatarUrl(String url) {
+            this.avatarUrl = url;
+        }
 
-//        public void setAvatarUrl(String url) {
-//            avatarUrl = url;
-//        }
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
 
-//        public String getAvatarUrl() {
-//            return avatarUrl;
-//        }
 }

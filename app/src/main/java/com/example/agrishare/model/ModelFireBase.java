@@ -1,7 +1,13 @@
 package com.example.agrishare.model;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -9,6 +15,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -137,4 +148,29 @@ public class ModelFireBase {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return (currentUser != null);
     }
+
+    /**
+     *      Storage implementation
+     */
+    static FirebaseStorage storage = FirebaseStorage.getInstance();
+
+    public static void saveImage(Bitmap imageBitMap, String imageName, Model.SaveImageListener listener) {
+        StorageReference storageRef = storage.getReference();
+        StorageReference imgRef = storageRef.child("/post_avatars/" + imageName);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = imgRef.putBytes(data);
+        uploadTask.addOnFailureListener(exception -> {
+            listener.onComplete(null);
+        }).addOnSuccessListener(taskSnapshot -> {
+        imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Uri downloadUrl = uri;
+            listener.onComplete(downloadUrl.toString());
+            });
+        });
+
+    }
+
 }
