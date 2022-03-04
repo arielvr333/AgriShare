@@ -35,12 +35,12 @@ public class PostDetailsFragment extends Fragment {
 
         DeleteBtn = view.findViewById(R.id.details_delete_btn);
         DeleteBtn.setOnClickListener((v) ->{
-            delete(post);
+            save("delete");
             Navigation.findNavController(v).navigateUp();
         });
         EditBtn = view.findViewById(R.id.details_edit_btn);
         EditBtn.setOnClickListener(v -> {
-            save();
+            save("edit");
             Navigation.findNavController(v).navigateUp();
         });
         setButtonVisibility(post);
@@ -81,17 +81,14 @@ public class PostDetailsFragment extends Fragment {
         }
     }
 
-    private void save() {
+    private void save(String type) {
 //        camBtn.setEnabled(false);
 //        galleryBtn.setEnabled(false);
         String title = Title.getText().toString();
         String post = Post.getText().toString();
         String address = Address.getText().toString();
         String price = Price.getText().toString();
-        Model.instance.editPost(title, post, address, price,PId);
-    }
+        Model.instance.editPost(title, post, address, price,PId, type.equals("edit"));
 
-    private void delete(Post post) {
-        Model.instance.deletePost(post);
     }
 }

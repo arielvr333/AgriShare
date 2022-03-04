@@ -19,22 +19,23 @@ public class Post {
     String Title = "";
     String Post = "";
     Long updateDate = new Long(0);
-    // String avatarUrl;
     String Address = "";
     String Price = "";
     Long Id;
     String writerId;
+    Boolean DisplayPost;
     private String avatarUrl;
 
     public Post() {}
 
-    public Post(String title, String post, String address, String price, Long id, String postWriterId) {
+    public Post(String title, String post, String address, String price, Long id, String postWriterId, Boolean display) {
         Title = title;
         Post = post;
         Address = address;
         Price = price;
         Id = id;
         writerId = postWriterId;
+        DisplayPost = display;
     }
 
     public Long getId() {
@@ -85,6 +86,14 @@ public class Post {
         this.writerId = writerId;
     }
 
+    public Boolean getDisplayPost() {
+        return DisplayPost;
+    }
+
+    public void setDisplayPost(Boolean displayPost) {
+        DisplayPost = displayPost;
+    }
+
     public Map<String, Object> toDB() {
         Map<String, Object> DbPost = new HashMap<>();
         DbPost.put("Title", Title);
@@ -95,6 +104,7 @@ public class Post {
         DbPost.put("writerId", writerId);
         DbPost.put("updateDate", FieldValue.serverTimestamp());
         DbPost.put("avatarUrl",avatarUrl);
+        DbPost.put("displayPost", DisplayPost);
         return DbPost;
     }
 
@@ -108,7 +118,8 @@ public class Post {
         Timestamp ts = (Timestamp)DbPost.get("updateDate");
         Long updateDate = ts.getSeconds();
         String avatarUrl = (String)DbPost.get("avatarUrl");
-        Post post = new Post(Title, Post, Address, Price, Id ,writerId);
+        Boolean displayPost = (Boolean)DbPost.get("displayPost");
+        Post post = new Post(Title, Post, Address, Price, Id ,writerId, displayPost);
         post.setUpdateDate(updateDate);
         post.setAvatarUrl(avatarUrl);
         return post;

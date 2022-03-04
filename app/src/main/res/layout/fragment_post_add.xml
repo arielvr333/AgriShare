@@ -89,14 +89,14 @@
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="56dp"
         android:text="Price"
         android:textColor="#FBFBFB"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/addpost_price"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addpost_tx" />
+        app:layout_constraintTop_toBottomOf="@+id/addstud_addresstv" />
 
     <EditText
         android:id="@+id/addpost_price"

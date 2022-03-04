@@ -13,7 +13,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class ModelFireBase {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public ModelFireBase(){
+    public ModelFireBase() {
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(false)
                 .build();
@@ -35,15 +34,15 @@ public class ModelFireBase {
         void onComplete();
     }
 
-    public interface DeletePostListener {
-        void onComplete();
-    }
+//    public interface DeletePostListener {
+//        void onComplete();
+//    }
 
-    public interface GetAllPostsListener{
+    public interface GetAllPostsListener {
         void onComplete(List<Post> list);
     }
 
-    public interface GetAllUsersListener{
+    public interface GetAllUsersListener {
         void onComplete(List<User> list);
     }
 
@@ -52,20 +51,20 @@ public class ModelFireBase {
     }
 
     public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
-        db.collection(Post.COLLECTION_NAME).whereGreaterThanOrEqualTo("updateDate",new Timestamp(lastUpdateDate,0))
-                .orderBy("updateDate",Query.Direction.DESCENDING)
+        db.collection(Post.COLLECTION_NAME).whereGreaterThanOrEqualTo("updateDate", new Timestamp(lastUpdateDate, 0))
+                .orderBy("updateDate", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     List<Post> list = new LinkedList<>();
-                    if (task.isSuccessful()){
-                        Log.d("tag","success");
-                        for (QueryDocumentSnapshot doc : task.getResult()){
-                            Log.d("tag","model fb for loop");
+                    if (task.isSuccessful()) {
+                        Log.d("tag", "success");
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Log.d("tag", "model fb for loop");
                             Post post = Post.create(doc.getData());
                             list.add(post);
                         }
                     }
-                    Log.d("tag","model fb list size = " + list.size());
+                    Log.d("tag", "model fb list size = " + list.size());
                     listener.onComplete(list);
                 });
     }
@@ -113,15 +112,15 @@ public class ModelFireBase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void deletePost(Long postId, DeletePostListener listener){
-        db.collection(Post.COLLECTION_NAME).document(postId.toString()).delete().addOnCompleteListener(e-> listener.onComplete());
-    }
+//    public void deletePost(Long postId, DeletePostListener listener){
+//        db.collection(Post.COLLECTION_NAME).document(postId.toString()).delete().addOnCompleteListener(e-> listener.onComplete());
+//    }
 
-    public interface loginListener{
+    public interface loginListener {
         void onComplete(boolean bool);
     }
 
-    public interface RegisterListener{
+    public interface RegisterListener {
         void onComplete(boolean bool);
     }
 
@@ -134,20 +133,20 @@ public class ModelFireBase {
         }).addOnFailureListener(e -> listener.onComplete(false));
     }
 
-    public void registerUser(final String Email, final String name, String password,String address,String phoneNumber, RegisterListener listener) {
+    public void registerUser(final String Email, final String name, String password, String address, String phoneNumber, RegisterListener listener) {
         mAuth.createUserWithEmailAndPassword(Email, password).addOnSuccessListener(authResult -> {
             listener.onComplete(true);
             getAllUsers(list -> {
-                int size=list.size()+1;
-                String id=Integer.toString(size);
+                int size = list.size() + 1;
+                String id = Integer.toString(size);
                 User newUser = new User(name, Email, id, address, phoneNumber);
                 Model.instance.setLoggedUser(newUser);
                 db.collection("Users").document(Email).set(newUser);
             });
-         });
+        });
     }
 
-    public boolean isSignedIn(){
+    public boolean isSignedIn() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return (currentUser != null);
     }
@@ -158,7 +157,7 @@ public class ModelFireBase {
     }
 
     /**
-     *      Storage implementation
+     * Storage implementation
      */
     static FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -173,12 +172,11 @@ public class ModelFireBase {
         uploadTask.addOnFailureListener(exception -> {
             listener.onComplete(null);
         }).addOnSuccessListener(taskSnapshot -> {
-        imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Uri downloadUrl = uri;
-            listener.onComplete(downloadUrl.toString());
+            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                Uri downloadUrl = uri;
+                listener.onComplete(downloadUrl.toString());
             });
         });
 
     }
-
 }

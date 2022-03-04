@@ -1,7 +1,6 @@
 package com.example.agrishare;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -24,12 +22,14 @@ public class AddPostFragment extends Fragment {
     EditText Title;
     EditText Post;
     EditText Address;
-    EditText UploadPhoto;
     EditText Price;
     Button saveBtn;
     Button cancelBtn;
     View v;
     ImageView avatar;
+    ImageButton cameraBtn;
+    ImageButton galleryBtn;
+    Bitmap imageBitMap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_add, container, false);
@@ -45,26 +45,21 @@ public class AddPostFragment extends Fragment {
             Navigation.findNavController(v).navigateUp();
         });
         cancelBtn.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
-        ImageButton cameraBtn= view.findViewById(R.id.addpost_cam_btn);
-        ImageButton galleryBtn= view.findViewById(R.id.addpost_gallery_btn);
+        cameraBtn= view.findViewById(R.id.addpost_cam_btn);
+        galleryBtn= view.findViewById(R.id.addpost_gallery_btn);
         avatar = view.findViewById(R.id.addpost_imageView);
-        cameraBtn.setOnClickListener(v -> {
-            openCamera();
-        });
-        galleryBtn.setOnClickListener(v -> {
-            openGalley();
-        });
+        cameraBtn.setOnClickListener(v -> openCamera());
+        galleryBtn.setOnClickListener(v -> openGalley());
         return view;
     }
     static  final int REQUEST_IMAGE_CAPTURE=1;
-    private void openGalley() {
-    }
+    private void openGalley() {}
 
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
     }
-    Bitmap imageBitMap;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -81,38 +76,20 @@ public class AddPostFragment extends Fragment {
     private void save() {
         saveBtn.setEnabled(false);
         cancelBtn.setEnabled(false);
-
-        // camBtn.setEnabled(false);
-        //galleryBtn.setEnabled(false);
+        cameraBtn.setEnabled(false);
+        galleryBtn.setEnabled(false);
 
         String title = Title.getText().toString();
         String post = Post.getText().toString();
         String address = Address.getText().toString();
         String price = Price.getText().toString();
-        if(imageBitMap !=null){
+        if (imageBitMap != null) {
             Model.instance.saveImage(imageBitMap, title + ".jpg", url -> {
                 //POST.SETURL(URL);
                 Model.instance.addPost(title, post, address, price);
             });
-        }
-        else {
+        } else
             Model.instance.addPost(title, post, address, price);
-        }
-/*
-        if (imageBitmap == null) {
-            Model.instance.addStudent(student, () -> {
-                Navigation.findNavController(nameEt).navigateUp();
-            });
-        } else {
-            Model.instance.saveImage(imageBitmap, id + ".jpg", url -> {
-                student.setAvatarUrl(url);
-                Model.instance.addStudent(student, () -> {
-                    Navigation.findNavController(nameEt).navigateUp();
-                });
-            });
-        }
-
- */
     }
 }
 
