@@ -5,7 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import com.example.agrishare.MainActivity;
 
-@Database(entities = {Post.class}, version = 4)
+@Database(entities = {Post.class}, version = 5)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract PostDao PostDao();
 }

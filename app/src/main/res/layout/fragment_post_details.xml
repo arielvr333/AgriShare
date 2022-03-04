@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/background"
     tools:context=".PostDetailsFragment">
 
     <ImageView
@@ -41,6 +41,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:text="Title:"
+        android:textColor="#090909"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_post_img" />
@@ -52,6 +53,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:text="Post:"
+        android:textColor="#020202"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_name_tv" />
@@ -60,7 +62,9 @@
         android:id="@+id/details_post_publisher"
         android:layout_width="271dp"
         android:layout_height="35dp"
+        android:background="#8DFFFFFF"
         android:text="By:"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +80,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
         android:text="Price:"
+        android:textColor="#090909"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_post" />
@@ -87,6 +92,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="32dp"
         android:text="Address:"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_phone_tv" />
@@ -107,6 +113,7 @@
         android:layout_width="322dp"
         android:layout_height="178dp"
         android:layout_marginTop="20dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -120,6 +127,7 @@
         android:layout_width="317dp"
         android:layout_height="41dp"
         android:layout_marginTop="24dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,6 +140,7 @@
         android:layout_width="313dp"
         android:layout_height="39dp"
         android:layout_marginTop="32dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -144,6 +153,7 @@
         android:layout_width="275dp"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"

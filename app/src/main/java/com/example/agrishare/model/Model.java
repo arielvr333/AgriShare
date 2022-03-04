@@ -8,7 +8,6 @@ import android.util.Log;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.agrishare.MYApplication;
 import com.example.agrishare.MainActivity;
 import java.util.List;
@@ -70,7 +69,9 @@ public class Model {
         modelFirebase.getAllUsers(listener);
     }
 
-    public void deletePost(Long id) {modelFirebase.deletePost(id);}
+    public void deletePost(Post post) {
+        modelFirebase.deletePost(post.getId(), () -> executor.execute(() -> AppLocalDB.db.PostDao().delete(post)));
+    }
 
     public void setLoggedUser(User user) {
         this.user = user;
@@ -97,11 +98,11 @@ public class Model {
         postListLoadingState.setValue(PostListLoadingState.loading);
         Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate",0);
         Log.d("tag","lastUpdateDate = " + lastUpdateDate);
-        executor.execute(() -> {
-            List<Post> PostList = AppLocalDB.db.PostDao().getAll();
-            postsList.postValue(PostList);
-            Log.d("tag","executor list size: " + PostList.size());
-        });
+//        executor.execute(() -> {
+//            List<Post> PostList = AppLocalDB.db.PostDao().getAll();
+//            postsList.postValue(PostList);
+//            Log.d("tag","executor list size: " + PostList.size());
+//        });
         modelFirebase.getAllPosts(lastUpdateDate, list -> executor.execute(() -> {
             Long lud = new Long(0);
             for (Post post : list) {
@@ -131,7 +132,12 @@ public class Model {
     public void registerUser(String Email, String name, String password,String address,String phoneNumber, ModelFireBase.RegisterListener listener){
         modelFirebase.registerUser(Email, name, password, address, phoneNumber, listener);
     }
+
     public boolean isSignedIn() {
         return modelFirebase.isSignedIn();
+    }
+
+    public void logout(ModelFireBase.LogoutListener listener) {
+        modelFirebase.logout(listener);
     }
 }

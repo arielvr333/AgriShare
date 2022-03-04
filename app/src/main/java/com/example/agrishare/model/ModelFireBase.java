@@ -3,11 +3,6 @@ package com.example.agrishare.model;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,12 +35,20 @@ public class ModelFireBase {
         void onComplete();
     }
 
+    public interface DeletePostListener {
+        void onComplete();
+    }
+
     public interface GetAllPostsListener{
         void onComplete(List<Post> list);
     }
 
     public interface GetAllUsersListener{
         void onComplete(List<User> list);
+    }
+
+    public interface LogoutListener {
+        void onComplete();
     }
 
     public void getAllPosts(Long lastUpdateDate, GetAllPostsListener listener) {
@@ -110,8 +113,8 @@ public class ModelFireBase {
                 .addOnFailureListener(e -> listener.onComplete());
     }
 
-    public void deletePost(Long postId){
-        db.collection(Post.COLLECTION_NAME).document(postId.toString()).delete();
+    public void deletePost(Long postId, DeletePostListener listener){
+        db.collection(Post.COLLECTION_NAME).document(postId.toString()).delete().addOnCompleteListener(e-> listener.onComplete());
     }
 
     public interface loginListener{
@@ -147,6 +150,11 @@ public class ModelFireBase {
     public boolean isSignedIn(){
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return (currentUser != null);
+    }
+
+    public void logout(LogoutListener listener) {
+        mAuth.signOut();
+        listener.onComplete();
     }
 
     /**

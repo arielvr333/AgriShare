@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -27,6 +28,8 @@ public class PostListRvFragment extends Fragment {
     MyAdapter adapter;
     PostListRvViewModel viewModel;
     SwipeRefreshLayout swipeRefresh;
+    View view;
+    Button logoutBtn;
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -36,7 +39,7 @@ public class PostListRvFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_posts_list,container,false);
+        view = inflater.inflate(R.layout.fragment_posts_list,container,false);
         RecyclerView list = view.findViewById(R.id.postslist_rv);
         list.setHasFixedSize(true);
         swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
@@ -45,21 +48,6 @@ public class PostListRvFragment extends Fragment {
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter();
         list.setAdapter(adapter);
-        /// /////////////////////////////
-//        Model.instance.getAllPosts((modelList)->{
-//            data = modelList;
-//            adapter.notifyDataSetChanged();
-//        });
-//
-//        adapter.setOnItemClickListener((v, position) -> {
-//           Long Id = data.get(position).getId();
-//           Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(Id));
-//        });
-//
-//        ImageButton add = view.findViewById(R.id.postlist_add_btn);
-//        add.setOnClickListener((v)-> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
-//        setHasOptionsMenu(true);
-        /// ////////////////////////////////////
 
         adapter.setOnItemClickListener((v, position) -> {
             Long Id = viewModel.getData().getValue().get(position).getId();
@@ -68,6 +56,8 @@ public class PostListRvFragment extends Fragment {
         });
         ImageButton add = view.findViewById(R.id.postlist_add_btn);
         add.setOnClickListener((v)-> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
+        logoutBtn = view.findViewById(R.id.postlist_logoutButton);
+        logoutBtn.setOnClickListener(v -> logout());
         setHasOptionsMenu(true);
         viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
         swipeRefresh.setRefreshing(Model.instance.getPostListLoadingState().getValue() == Model.PostListLoadingState.loading);
@@ -80,6 +70,10 @@ public class PostListRvFragment extends Fragment {
     private void refresh(){
         adapter.notifyDataSetChanged();
         swipeRefresh.setRefreshing(false);
+    }
+
+    private void logout() {
+        Model.instance.logout(() -> Navigation.findNavController(this.view).navigate(R.id.action_postListRvFragment_to_loginFragment));
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{

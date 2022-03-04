@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".PostListRvFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,6 +20,7 @@
             android:id="@+id/postslist_rv"
             android:layout_width="0dp"
             android:layout_height="0dp" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageButton
@@ -30,5 +32,15 @@
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/postlist_logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#E80202"
+        android:fadingEdge="horizontal|vertical"
+        android:text="Logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/postlist_swiperefresh" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,15 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 
 public class HomeFragment extends Fragment {
-
-    EditText username;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -44,9 +40,6 @@ public class HomeFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home, container, false);
         Button addPost =view.findViewById(R.id.addPost_btn);
         addPost.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_addPostFragment));
-//        String name = HomeFragmentArgs.fromBundle(getArguments()).getUserName();
-//        username=view.findViewById(R.id.homefreg_username_txt);
-//        username.setText("Hello " + name);
         return view;
     }
 }

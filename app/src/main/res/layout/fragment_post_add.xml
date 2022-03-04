@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".AddPostFragment">
 
     <ImageView
@@ -17,14 +18,15 @@
 
     <EditText
         android:id="@+id/addpost_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="342dp"
+        android:layout_height="53dp"
         android:layout_marginEnd="12dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/addTitle_tx"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/addTitle_tx" />
 
     <TextView
@@ -34,6 +36,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:text="Post:"
+        android:textColor="#070707"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/addpost_post"
         app:layout_constraintHorizontal_bias="0.0"
@@ -42,24 +45,26 @@
 
     <EditText
         android:id="@+id/addpost_post"
-        android:layout_width="332dp"
-        android:layout_height="125dp"
+        android:layout_width="325dp"
+        android:layout_height="152dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/addpost_address"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintHorizontal_bias="0.813"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addpost_title"
-        app:layout_constraintVertical_bias="0.703" />
+        app:layout_constraintVertical_bias="0.461" />
 
     <EditText
         android:id="@+id/addpost_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="287dp"
+        android:layout_height="51dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="12dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBaseline_toBaselineOf="@+id/addstud_addresstv"
@@ -72,38 +77,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="148dp"
         android:text="Address"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addpost_tx" />
 
     <TextView
         android:id="@+id/addpost_pricetext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="236dp"
         android:text="Price"
+        android:textColor="#FBFBFB"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/addpost_price"
-        app:layout_constraintHorizontal_bias="0.815"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addpost_tx" />
 
     <EditText
         android:id="@+id/addpost_price"
-        android:layout_width="210dp"
-        android:layout_height="49dp"
+        android:layout_width="294dp"
+        android:layout_height="42dp"
         android:layout_marginTop="11dp"
+        android:background="#8DFFFFFF"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/addspost_save_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.794"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addpost_address"
-        app:layout_constraintVertical_bias="0.045" />
+        app:layout_constraintVertical_bias="0.271" />
 
     <TextView
         android:id="@+id/addTitle_tx"
@@ -113,6 +121,7 @@
         android:layout_marginTop="56dp"
         android:lineSpacingExtra="14sp"
         android:text="Title:"
+        android:textColor="#0E0E0E"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addpost_imageView" />

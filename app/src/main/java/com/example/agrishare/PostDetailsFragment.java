@@ -35,7 +35,7 @@ public class PostDetailsFragment extends Fragment {
 
         DeleteBtn = view.findViewById(R.id.details_delete_btn);
         DeleteBtn.setOnClickListener((v) ->{
-            delete(post.getId());
+            delete(post);
             Navigation.findNavController(v).navigateUp();
         });
         EditBtn = view.findViewById(R.id.details_edit_btn);
@@ -91,7 +91,7 @@ public class PostDetailsFragment extends Fragment {
         Model.instance.editPost(title, post, address, price,PId);
     }
 
-    private void delete(Long Id) {
-        Model.instance.deletePost(Id);
+    private void delete(Post post) {
+        Model.instance.deletePost(post);
     }
 }
