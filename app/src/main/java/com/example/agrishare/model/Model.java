@@ -24,6 +24,9 @@ public class Model {
     public interface SaveImageListener {
         void onComplete(String url);
     }
+    public interface PostAvatar {
+        void onComplete(Post post);
+    }
 
     public void saveImage(Bitmap imageBitMap, String imageName, SaveImageListener listener) {
         ModelFireBase.saveImage(imageBitMap, imageName, listener);
@@ -53,18 +56,18 @@ public class Model {
         modelFirebase.addPost(newPost, this::refreshPostList);
     }
 
-    public void editPost(String title, String post, String address, String price, Long id, Boolean display) {
-        Post tempPost = null;
-        for (Post p : postsList.getValue())
-            if (p.getId().equals(id)) {
-                tempPost = p;
-            }
-        tempPost.setTitle(title);
-        tempPost.setPost(post);
-        tempPost.setAddress(address);
-        tempPost.setPrice(price);
-        tempPost.setDisplayPost(display);
-        modelFirebase.addPost(tempPost, this::refreshPostList);
+    public void editPost(Post post) {
+//        Post tempPost = null;
+//        for (Post p : postsList.getValue())
+//            if (p.getId().equals(post.getId())) {
+//                post.setId(p.getId());
+//            }
+//        tempPost.setTitle(title);
+//        tempPost.setPost(post);
+//        tempPost.setAddress(address);
+//        tempPost.setPrice(price);
+//        tempPost.setDisplayPost(display);
+        modelFirebase.addPost(post, this::refreshPostList);
     }
 
     public void getPublisherByPost(ModelFireBase.GetAllUsersListener listener) {
@@ -85,21 +88,15 @@ public class Model {
         return postsList;
     }
 
-    public Post getPostById(Long id) {
+    public void getPostById(Long id,PostAvatar listener) {
         for (Post p : postsList.getValue())
             if (p.getId().equals(id))
-                return p;
-        return null;
+                listener.onComplete(p);
     }
 
     public void refreshPostList() {
         postListLoadingState.setValue(PostListLoadingState.loading);
         Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
-//        executor.execute(() -> {
-//            List<Post> PostList = AppLocalDB.db.PostDao().getAll();
-//            postsList.postValue(PostList);
-//            Log.d("tag","executor list size: " + PostList.size());
-//        });
         modelFirebase.getAllPosts(lastUpdateDate, list -> executor.execute(() -> {
             Long lud = new Long(0);
             for (Post post : list) {

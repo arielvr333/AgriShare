@@ -3,8 +3,11 @@ package com.example.agrishare;
 import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.example.agrishare.model.Model;
 import com.example.agrishare.model.Post;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 public class AddPostFragment extends Fragment {
@@ -54,7 +62,12 @@ public class AddPostFragment extends Fragment {
         return view;
     }
     static  final int REQUEST_IMAGE_CAPTURE=1;
-    private void openGalley() {}
+    static final int REQUEST_IMAGE_PICK=2;
+    private void openGalley() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, REQUEST_IMAGE_PICK);
+    }
 
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -71,6 +84,20 @@ public class AddPostFragment extends Fragment {
                 imageBitMap = (Bitmap) extras.get("data");
                 avatar.setImageBitmap(imageBitMap);
             }
+        }else if(requestCode == REQUEST_IMAGE_PICK){
+            if(resultCode == RESULT_OK)
+            {
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContext().getContentResolver().openInputStream(imageUri);
+                    imageBitMap = BitmapFactory.decodeStream(imageStream);
+                    avatar.setImageBitmap(imageBitMap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(),"Failed to select image from gallery",Toast.LENGTH_LONG).show();
+                }
+
+        }
         }
     }
 
@@ -85,10 +112,13 @@ public class AddPostFragment extends Fragment {
         String address = Address.getText().toString();
         String price = Price.getText().toString();
         Long postId=  System.currentTimeMillis();
-        if (imageBitMap != null)
-            Model.instance.saveImage(imageBitMap, postId.toString() + ".jpg", url -> Model.instance.addPost(new Post(title, post, address, price, postId, "", true,url)));
-        else
-            Model.instance.addPost(new Post(title, post, address, price,postId, "", true,""));
+        if (imageBitMap != null) {
+            Model.instance.saveImage(imageBitMap, postId.toString() + ".jpg", url -> Model.instance.addPost(new Post(title, post, address, price, postId, "", true, url)));
+        }
+        else {
+            Model.instance.addPost(new Post(title, post, address, price, postId, "", true, ""));
+
+        }
     }
 }
 

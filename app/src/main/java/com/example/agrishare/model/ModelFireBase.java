@@ -59,12 +59,10 @@ public class ModelFireBase {
                     if (task.isSuccessful()) {
                         Log.d("tag", "success");
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            Log.d("tag", "model fb for loop");
                             Post post = Post.create(doc.getData());
                             list.add(post);
                         }
                     }
-                    Log.d("tag", "model fb list size = " + list.size());
                     listener.onComplete(list);
                 });
     }

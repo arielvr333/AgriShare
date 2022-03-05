@@ -19,8 +19,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/listrow_avatar_imv"
-            android:layout_width="161dp"
-            android:layout_height="159dp"
+            android:layout_width="171dp"
+            android:layout_height="177dp"
             android:layout_marginStart="4dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
