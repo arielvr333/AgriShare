@@ -19,15 +19,15 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/listrow_avatar_imv"
-            android:layout_width="179dp"
-            android:layout_height="234dp"
+            android:layout_width="161dp"
+            android:layout_height="159dp"
             android:layout_marginStart="4dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.533"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            app:srcCompat="@drawable/default_post_picture" />
 
         <TextView
             android:id="@+id/listrowTitle"

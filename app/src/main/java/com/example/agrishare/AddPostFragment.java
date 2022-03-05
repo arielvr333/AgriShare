@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.example.agrishare.model.Model;
+import com.example.agrishare.model.Post;
 
 
 public class AddPostFragment extends Fragment {
@@ -83,13 +84,11 @@ public class AddPostFragment extends Fragment {
         String post = Post.getText().toString();
         String address = Address.getText().toString();
         String price = Price.getText().toString();
-        if (imageBitMap != null) {
-            Model.instance.saveImage(imageBitMap, title + ".jpg", url -> {
-                //POST.SETURL(URL);
-                Model.instance.addPost(title, post, address, price);
-            });
-        } else
-            Model.instance.addPost(title, post, address, price);
+        Long postId=  System.currentTimeMillis();
+        if (imageBitMap != null)
+            Model.instance.saveImage(imageBitMap, postId.toString() + ".jpg", url -> Model.instance.addPost(new Post(title, post, address, price, postId, "", true,url)));
+        else
+            Model.instance.addPost(new Post(title, post, address, price,postId, "", true,""));
     }
 }
 

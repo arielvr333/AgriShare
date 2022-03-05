@@ -48,8 +48,8 @@ public class Model {
         postListLoadingState.setValue(PostListLoadingState.loaded);
     }
 
-    public void addPost(String title, String post, String address, String price) {
-        Post newPost = new Post(title, post, address, price, System.currentTimeMillis(), user.getId(), true);
+    public void addPost(Post newPost) {
+        newPost.setWriterId(user.getId());
         modelFirebase.addPost(newPost, this::refreshPostList);
     }
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.agrishare.model.Model;
 import com.example.agrishare.model.Post;
+import com.squareup.picasso.Picasso;
 
 public class PostListRvFragment extends Fragment {
     MyAdapter adapter;
@@ -81,6 +83,7 @@ public class PostListRvFragment extends Fragment {
         TextView AddressTv;
         TextView PostTv;
         TextView PriceTv;
+        ImageView avatar;
 
         public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -88,10 +91,23 @@ public class PostListRvFragment extends Fragment {
             AddressTv = itemView.findViewById(R.id.listrowAddress);
             PostTv = itemView.findViewById(R.id.listrowPost);
             PriceTv = itemView.findViewById(R.id.listrowPrice);
+            avatar = itemView.findViewById(R.id.listrow_avatar_imv);
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 listener.onItemClick(v,pos);
             });
+        }
+        public void bind(Post post){
+            TitleTv.setText(post.getTitle());
+            AddressTv.setText(post.getAddress());
+            PostTv.setText(post.getPost());
+            PriceTv.setText(post.getPrice());
+            avatar.setImageResource(R.drawable.default_post_picture);
+            if(!post.getAvatarUrl().equals("")) {
+                Picasso.get()
+                        .load(post.getAvatarUrl())
+                        .into(avatar);
+            }
         }
     }
 
@@ -115,10 +131,11 @@ public class PostListRvFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Post post = viewModel.getData().getValue().get(position);
-            holder.TitleTv.setText(post.getTitle());
-            holder.AddressTv.setText(post.getAddress());
-            holder.PostTv.setText(post.getPost());
-            holder.PriceTv.setText(post.getPrice());
+//            holder.TitleTv.setText(post.getTitle());
+//            holder.AddressTv.setText(post.getAddress());
+//            holder.PostTv.setText(post.getPost());
+//            holder.PriceTv.setText(post.getPrice());
+            holder.bind(post);
         }
 
         @Override

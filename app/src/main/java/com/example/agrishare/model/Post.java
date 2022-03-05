@@ -24,11 +24,11 @@ public class Post {
     Long Id;
     String writerId;
     Boolean DisplayPost;
-    private String avatarUrl;
+    private String AvatarUrl;
 
     public Post() {}
 
-    public Post(String title, String post, String address, String price, Long id, String postWriterId, Boolean display) {
+    public Post(String title, String post, String address, String price, Long id, String postWriterId, Boolean display,String avatarUrl) {
         Title = title;
         Post = post;
         Address = address;
@@ -36,6 +36,7 @@ public class Post {
         Id = id;
         writerId = postWriterId;
         DisplayPost = display;
+        AvatarUrl=avatarUrl;
     }
 
     public Long getId() {
@@ -103,7 +104,7 @@ public class Post {
         DbPost.put("Id", Id);
         DbPost.put("writerId", writerId);
         DbPost.put("updateDate", FieldValue.serverTimestamp());
-        DbPost.put("avatarUrl",avatarUrl);
+        DbPost.put("avatarUrl",AvatarUrl);
         DbPost.put("displayPost", DisplayPost);
         return DbPost;
     }
@@ -119,9 +120,8 @@ public class Post {
         Long updateDate = ts.getSeconds();
         String avatarUrl = (String)DbPost.get("avatarUrl");
         Boolean displayPost = (Boolean)DbPost.get("displayPost");
-        Post post = new Post(Title, Post, Address, Price, Id ,writerId, displayPost);
+        Post post = new Post(Title, Post, Address, Price, Id ,writerId, displayPost,avatarUrl);
         post.setUpdateDate(updateDate);
-        post.setAvatarUrl(avatarUrl);
         return post;
     }
 
@@ -134,11 +134,11 @@ public class Post {
     }
 
     public void setAvatarUrl(String url) {
-            this.avatarUrl = url;
+            this.AvatarUrl = url;
         }
 
     public String getAvatarUrl() {
-        return avatarUrl;
+        return AvatarUrl;
     }
 
 }
