@@ -1,4 +1,4 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import static android.app.Activity.RESULT_OK;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.example.agrishare.R;
 import com.example.agrishare.model.Model;
 import com.example.agrishare.model.Post;
-
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 
@@ -113,7 +111,7 @@ public class AddPostFragment extends Fragment {
         String price = Price.getText().toString();
         Long postId=  System.currentTimeMillis();
         if (imageBitMap != null) {
-            Model.instance.saveImage(imageBitMap, postId.toString() + ".jpg", url -> Model.instance.addPost(new Post(title, post, address, price, postId, "", true, url)));
+            Model.instance.saveImage(imageBitMap, postId + ".jpg", url -> Model.instance.addPost(new Post(title, post, address, price, postId, "", true, url)));
         }
         else {
             Model.instance.addPost(new Post(title, post, address, price, postId, "", true, ""));

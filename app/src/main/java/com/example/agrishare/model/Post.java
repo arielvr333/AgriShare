@@ -16,17 +16,18 @@ public class Post {
     final public static String COLLECTION_NAME = "Posts";
     @PrimaryKey
     @NonNull
+    Long Id;
     String Title = "";
     String Post = "";
     Long updateDate = new Long(0);
     String Address = "";
     String Price = "";
-    Long Id;
     String writerId;
     Boolean DisplayPost;
-    private String AvatarUrl;
+    String AvatarUrl;
 
-    public Post() {}
+    public Post() {
+    }
 
     public Post(String title, String post, String address, String price, Long id, String postWriterId, Boolean display,String avatarUrl) {
         Title = title;

@@ -1,4 +1,4 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.agrishare.R;
 import com.example.agrishare.model.Model;
 import com.example.agrishare.model.Post;
 import com.squareup.picasso.Picasso;

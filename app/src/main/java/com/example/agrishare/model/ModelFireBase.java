@@ -34,10 +34,6 @@ public class ModelFireBase {
         void onComplete();
     }
 
-//    public interface DeletePostListener {
-//        void onComplete();
-//    }
-
     public interface GetAllPostsListener {
         void onComplete(List<Post> list);
     }
@@ -109,10 +105,6 @@ public class ModelFireBase {
                 .addOnSuccessListener(unused -> listener.onComplete())
                 .addOnFailureListener(e -> listener.onComplete());
     }
-
-//    public void deletePost(Long postId, DeletePostListener listener){
-//        db.collection(Post.COLLECTION_NAME).document(postId.toString()).delete().addOnCompleteListener(e-> listener.onComplete());
-//    }
 
     public interface loginListener {
         void onComplete(boolean bool);

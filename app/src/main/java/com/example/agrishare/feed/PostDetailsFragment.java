@@ -1,14 +1,12 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.example.agrishare.R;
 import com.example.agrishare.model.Post;
 import com.example.agrishare.model.Model;
 import com.squareup.picasso.Picasso;
@@ -57,17 +56,12 @@ public class PostDetailsFragment extends Fragment {
         cameraBtn.setOnClickListener(v -> openCamera());
         galleryBtn.setOnClickListener(v -> openGalley());
 
-
-
-        Model.instance.getPostById(PId, new Model.PostAvatar() {
-            @Override
-            public void onComplete(Post post) {
-                displayPost(post);
-                if (!post.getAvatarUrl().equals("")) {
-                    Picasso.get()
-                            .load(post.getAvatarUrl())
-                            .into(avatar);
-                }
+        Model.instance.getPostById(PId, post -> {
+            displayPost(post);
+            if (!post.getAvatarUrl().equals("")) {
+                Picasso.get()
+                        .load(post.getAvatarUrl())
+                        .into(avatar);
             }
         });
         DeleteBtn = view.findViewById(R.id.details_delete_btn);
@@ -171,15 +165,9 @@ public class PostDetailsFragment extends Fragment {
             Model.instance.saveImage(imageBitMap, this.post.getId().toString() + ".jpg", url ->{
                 this.post.setAvatarUrl(url);
                 Model.instance.editPost(this.post);
-                Log.d("tag", "save image bitmap !=null");
-
             });
         }
-        else {
+        else
             Model.instance.editPost(this.post);
-            Log.d("tag","save image bitmap else");
-
-        }
-
     }
 }

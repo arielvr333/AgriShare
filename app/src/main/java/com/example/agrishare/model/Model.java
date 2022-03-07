@@ -8,7 +8,6 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.agrishare.MYApplication;
-import com.example.agrishare.MainActivity;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -56,17 +55,7 @@ public class Model {
         modelFirebase.addPost(newPost, this::refreshPostList);
     }
 
-    public void editPost(Post post) {
-//        Post tempPost = null;
-//        for (Post p : postsList.getValue())
-//            if (p.getId().equals(post.getId())) {
-//                post.setId(p.getId());
-//            }
-//        tempPost.setTitle(title);
-//        tempPost.setPost(post);
-//        tempPost.setAddress(address);
-//        tempPost.setPrice(price);
-//        tempPost.setDisplayPost(display);
+    public void editPost(Post post){
         modelFirebase.addPost(post, this::refreshPostList);
     }
 
@@ -76,10 +65,6 @@ public class Model {
 
     public void setLoggedUser(User user) {
         this.user = user;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public LiveData<List<Post>> getAll() {
@@ -96,7 +81,7 @@ public class Model {
 
     public void refreshPostList() {
         postListLoadingState.setValue(PostListLoadingState.loading);
-        Long lastUpdateDate = MainActivity.getContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
+        Long lastUpdateDate = MYApplication.getAppContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
         modelFirebase.getAllPosts(lastUpdateDate, list -> executor.execute(() -> {
             Long lud = new Long(0);
             for (Post post : list) {

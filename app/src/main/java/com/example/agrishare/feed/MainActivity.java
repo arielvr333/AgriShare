@@ -1,10 +1,11 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
+import com.example.agrishare.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -62,25 +63,4 @@ public class MainActivity extends AppCompatActivity {
     public static Context getContext() {
         return context;
     }
-
-    // check if user that opened the app still logged in (need to be in the first activity)
-    /*
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null)
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            reload(); //go to home page
-        }
-    }
-
-    private void reload() {
-     //Navigation.findNavController().navigate(R.id.action_loginFragment_to_homeFragment);
-       getSupportFragmentManager().beginTransaction().replace(R.id.loginFragment,new HomeFragment()).commit();
-
-    }
-
-     */
-
 }
