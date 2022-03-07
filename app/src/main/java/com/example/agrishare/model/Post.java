@@ -16,12 +16,12 @@ public class Post {
     final public static String COLLECTION_NAME = "Posts";
     @PrimaryKey
     @NonNull
+    Long Id;
     String Title = "";
     String Post = "";
     Long updateDate = new Long(0);
     String Address = "";
     String Price = "";
-    Long Id;
     String writerId;
     Boolean DisplayPost;
     private String AvatarUrl;

@@ -1,4 +1,4 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

@@ -1,4 +1,4 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -22,6 +22,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.example.agrishare.R;
 import com.example.agrishare.model.Post;
 import com.example.agrishare.model.Model;
 import com.squareup.picasso.Picasso;

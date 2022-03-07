@@ -1,10 +1,11 @@
-package com.example.agrishare;
+package com.example.agrishare.feed;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
+import com.example.agrishare.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
