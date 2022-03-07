@@ -140,10 +140,6 @@ public class PostListRvFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Post post = viewModel.getData().getValue().get(position);
-//            holder.TitleTv.setText(post.getTitle());
-//            holder.AddressTv.setText(post.getAddress());
-//            holder.PostTv.setText(post.getPost());
-//            holder.PriceTv.setText(post.getPrice());
             holder.bind(post);
         }
 
