@@ -1,4 +1,4 @@
-package com.example.agrishare;
+package com.example.agrishare.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.agrishare.R;
 import com.example.agrishare.feed.MainActivity;
 import com.example.agrishare.model.Model;
 

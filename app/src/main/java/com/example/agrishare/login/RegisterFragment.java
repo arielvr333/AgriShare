@@ -1,4 +1,4 @@
-package com.example.agrishare;
+package com.example.agrishare.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.agrishare.R;
 import com.example.agrishare.feed.MainActivity;
 import com.example.agrishare.model.Model;
 
@@ -28,7 +29,7 @@ public class RegisterFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public RegisterFragment() {}   // Required empty public constructor
+    public RegisterFragment() {}
 
     public static RegisterFragment newInstance(String param1, String param2) {
         RegisterFragment fragment = new RegisterFragment();

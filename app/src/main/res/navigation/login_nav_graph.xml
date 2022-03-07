@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.agrishare.RegisterFragment"
+        android:name="com.example.agrishare.login.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register"/>
     <fragment
         android:id="@+id/loginFragment2"
-        android:name="com.example.agrishare.LoginFragment"
+        android:name="com.example.agrishare.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
