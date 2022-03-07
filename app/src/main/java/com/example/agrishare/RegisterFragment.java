@@ -1,5 +1,6 @@
 package com.example.agrishare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.agrishare.feed.MainActivity;
 import com.example.agrishare.model.Model;
 
 public class RegisterFragment extends Fragment {
@@ -71,14 +73,22 @@ public class RegisterFragment extends Fragment {
                 Toast.makeText(getContext(), "Password too short!", Toast.LENGTH_SHORT).show();
             } else {
                 Model.instance.registerUser(username.getText().toString(), fullName.getText().toString(), password.getText().toString(),address.getText().toString(), phoneNumber.getText().toString(), bool -> {
-                   if (bool)
-                       Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_postListRvFragment);
+                   if (bool) {
+                       // Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_postListRvFragment);
+                       toFeedActivity();
+                   }
                    else
                        Toast.makeText(getContext(), "please choose a different username", Toast.LENGTH_LONG).show();
                });
             }
         });
         return view;
+    }
+
+    private void toFeedActivity() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 

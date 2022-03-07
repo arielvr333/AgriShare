@@ -2,6 +2,7 @@ package com.example.agrishare.feed;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.agrishare.R;
+import com.example.agrishare.login.LoginActivity;
 import com.example.agrishare.model.Model;
 import com.example.agrishare.model.Post;
 import com.squareup.picasso.Picasso;
@@ -32,7 +33,7 @@ public class PostListRvFragment extends Fragment {
     PostListRvViewModel viewModel;
     SwipeRefreshLayout swipeRefresh;
     View view;
-    Button logoutBtn;
+    ImageButton logoutBtn;
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -76,8 +77,15 @@ public class PostListRvFragment extends Fragment {
     }
 
     private void logout() {
-        Model.instance.logout(() -> Navigation.findNavController(this.view).navigate(R.id.action_postListRvFragment_to_loginFragment));
+        Model.instance.logout(() -> toLoginActivity());
     }
+
+    private void toLoginActivity() {
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView TitleTv;

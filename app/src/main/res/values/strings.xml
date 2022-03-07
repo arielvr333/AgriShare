@@ -10,4 +10,14 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="name">name</string>
+    <string name="Title">Title</string>
+    <string name="Post">Post</string>
+    <string name="Address">Address</string>
+    <string name="Price">Price</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="FullName">Fullname</string>
+    <string name="Fullname">Fullname</string>
+    <string name="Phonenumber">Phonenumber</string>
 </resources>

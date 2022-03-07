@@ -33,14 +33,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/postlist_logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#E80202"
-        android:fadingEdge="horizontal|vertical"
-        android:text="Logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/postlist_swiperefresh" />
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="22dp"
+        android:src="@android:drawable/ic_menu_set_as"
+        app:layout_constraintBottom_toBottomOf="@+id/postlist_swiperefresh"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
