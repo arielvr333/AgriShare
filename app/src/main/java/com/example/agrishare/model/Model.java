@@ -8,7 +8,6 @@ import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.agrishare.MYApplication;
-import com.example.agrishare.feed.MainActivity;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -20,6 +19,13 @@ public class Model {
     public Executor executor = Executors.newFixedThreadPool(1);
     public Handler mainThread = HandlerCompat.createAsync(Looper.getMainLooper());
     ModelFireBase modelFirebase = new ModelFireBase();
+    MutableLiveData<PostListLoadingState> postListLoadingState = new MutableLiveData<PostListLoadingState>();
+    private Model() {
+        postListLoadingState.setValue(PostListLoadingState.loaded);
+    }
+    public LiveData<PostListLoadingState> getPostListLoadingState() {
+        return postListLoadingState;
+    }
 
     public interface SaveImageListener {
         void onComplete(String url);
@@ -27,9 +33,15 @@ public class Model {
     public interface PostAvatar {
         void onComplete(Post post);
     }
+    public interface UserAvatar {
+        void onComplete(User user);
+    }
 
-    public void saveImage(Bitmap imageBitMap, String imageName, SaveImageListener listener) {
-        ModelFireBase.saveImage(imageBitMap, imageName, listener);
+    public void savePostImage(Bitmap imageBitMap, String imageName, SaveImageListener listener) {
+        ModelFireBase.savePostImage(imageBitMap, imageName, listener);
+    }
+    public void saveUserImage(Bitmap imageBitMap, String imageName, SaveImageListener listener) {
+        ModelFireBase.saveUserImage(imageBitMap, imageName, listener);
     }
 
     public enum PostListLoadingState {
@@ -37,18 +49,12 @@ public class Model {
         loaded
     }
 
-    MutableLiveData<PostListLoadingState> postListLoadingState = new MutableLiveData<PostListLoadingState>();
+    public void getUser(UserAvatar listener) {
+        listener.onComplete(this.user); }
 
-    public LiveData<PostListLoadingState> getPostListLoadingState() {
-        return postListLoadingState;
-    }
 
     public boolean userIsWriter(Post post) {
         return this.user.Id.equals(post.getWriterId());
-    }
-
-    private Model() {
-        postListLoadingState.setValue(PostListLoadingState.loaded);
     }
 
     public void addPost(Post newPost) {
@@ -56,8 +62,10 @@ public class Model {
         modelFirebase.addPost(newPost, this::refreshPostList);
     }
 
-    public void editPost(Post post){
-        modelFirebase.addPost(post, this::refreshPostList);
+    public void editPost(Post post){ modelFirebase.addPost(post, this::refreshPostList); }
+
+    public void editUser(User user){
+        modelFirebase.editUser(user);
     }
 
     public void getPublisherByPost(ModelFireBase.GetAllUsersListener listener) {
@@ -109,7 +117,7 @@ public class Model {
     }
 
     public void registerUser(String Email, String name, String password, String address, String phoneNumber, ModelFireBase.RegisterListener listener) {
-        modelFirebase.registerUser(Email, name, password, address, phoneNumber, listener);
+        modelFirebase.registerUser(Email, name, password, address, phoneNumber, listener,"");
     }
 
     public boolean isSignedIn() {

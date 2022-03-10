@@ -1,10 +1,8 @@
 package com.example.agrishare;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.agrishare.feed.MainActivity;
 import com.example.agrishare.login.LoginActivity;
 import com.example.agrishare.model.Model;

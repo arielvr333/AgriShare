@@ -20,4 +20,6 @@
     <string name="FullName">Fullname</string>
     <string name="Fullname">Fullname</string>
     <string name="Phonenumber">Phonenumber</string>
+    <string name="Name">Name</string>
+    <string name="Email">Email</string>
 </resources>

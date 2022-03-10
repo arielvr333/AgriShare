@@ -96,6 +96,22 @@ public class Post {
         DisplayPost = displayPost;
     }
 
+    public Long getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public void setAvatarUrl(String url) {
+        this.AvatarUrl = url;
+    }
+
+    public String getAvatarUrl() {
+        return AvatarUrl;
+    }
+
     public Map<String, Object> toDB() {
         Map<String, Object> DbPost = new HashMap<>();
         DbPost.put("Title", Title);
@@ -126,20 +142,6 @@ public class Post {
         return post;
     }
 
-    public Long getUpdateDate() {
-        return updateDate;
-    }
 
-    public void setUpdateDate(Long updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public void setAvatarUrl(String url) {
-            this.AvatarUrl = url;
-        }
-
-    public String getAvatarUrl() {
-        return AvatarUrl;
-    }
 
 }

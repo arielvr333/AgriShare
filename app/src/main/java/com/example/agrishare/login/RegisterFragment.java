@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import com.example.agrishare.R;
 import com.example.agrishare.feed.MainActivity;
 import com.example.agrishare.model.Model;
@@ -23,7 +22,6 @@ public class RegisterFragment extends Fragment {
     private EditText password;
     private EditText address;
     private EditText phoneNumber;
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -53,19 +51,13 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view= inflater.inflate(R.layout.fragment_register, container, false);
-
         fullName = view.findViewById(R.id.regfrag_fullName_txt);
         username=view.findViewById(R.id.regfrag_userName_txt);
         password=view.findViewById(R.id.regfrag_password);
         address=view.findViewById(R.id.regfrag_Address);
         phoneNumber=view.findViewById(R.id.regfrag_Phonenumber);
-
-
         Button login = view.findViewById(R.id.regfrag_login_btn);
-        login.setOnClickListener((v)->{
-            Navigation.findNavController(v).navigateUp();
-        });
-
+        login.setOnClickListener((v)-> Navigation.findNavController(v).navigateUp());
         Button register = view.findViewById(R.id.regfrag_register_btn);
         register.setOnClickListener(v -> {
             if (TextUtils.isEmpty(username.getText().toString()) || TextUtils.isEmpty(fullName.getText().toString())|| TextUtils.isEmpty(password.getText().toString())){
@@ -74,12 +66,8 @@ public class RegisterFragment extends Fragment {
                 Toast.makeText(getContext(), "Password too short!", Toast.LENGTH_SHORT).show();
             } else {
                 Model.instance.registerUser(username.getText().toString(), fullName.getText().toString(), password.getText().toString(),address.getText().toString(), phoneNumber.getText().toString(), bool -> {
-                   if (bool) {
-                       // Navigation.findNavController(v).navigate(R.id.action_registerFragment_to_postListRvFragment);
-                       toFeedActivity();
-                   }
-                   else
-                       Toast.makeText(getContext(), "please choose a different username", Toast.LENGTH_LONG).show();
+                   if (bool) toFeedActivity();
+                   else Toast.makeText(getContext(), "please choose a different username", Toast.LENGTH_LONG).show();
                });
             }
         });
@@ -91,6 +79,4 @@ public class RegisterFragment extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
-
-
 }

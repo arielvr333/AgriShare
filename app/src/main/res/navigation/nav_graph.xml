@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_postListRvFragment_to_postDetailsFragment"
             app:destination="@id/postDetailsFragment" />
+        <action
+            android:id="@+id/action_postListRvFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/postDetailsFragment"
@@ -29,4 +32,8 @@
             android:name="pos"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.example.agrishare.feed.UserDetailsFragment"
+        android:label="UserDetailsFragment" />
 </navigation>

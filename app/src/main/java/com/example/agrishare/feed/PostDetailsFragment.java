@@ -51,8 +51,8 @@ public class PostDetailsFragment extends Fragment {
         Publisher = view.findViewById(R.id.details_post_publisher);
         PId = PostDetailsFragmentArgs.fromBundle(getArguments()).getPos();
         avatar = view.findViewById(R.id.details_post_img);
-        cameraBtn= view.findViewById(R.id.editpost_cam_btn);
-        galleryBtn= view.findViewById(R.id.editpost_gallery_btn);
+        cameraBtn = view.findViewById(R.id.editpost_cam_btn);
+        galleryBtn = view.findViewById(R.id.editpost_gallery_btn);
         cameraBtn.setOnClickListener(v -> openCamera());
         galleryBtn.setOnClickListener(v -> openGalley());
 
@@ -96,6 +96,8 @@ public class PostDetailsFragment extends Fragment {
         if(Model.instance.userIsWriter(post)) {
             EditBtn.setVisibility(View.VISIBLE);
             DeleteBtn.setVisibility(View.VISIBLE);
+            cameraBtn.setVisibility(View.VISIBLE);
+            galleryBtn.setVisibility(View.VISIBLE);
             Title.setEnabled(true);
             Post.setEnabled(true);
             Price.setEnabled(true);
@@ -105,6 +107,8 @@ public class PostDetailsFragment extends Fragment {
         else{
             EditBtn.setVisibility(View.GONE);
             DeleteBtn.setVisibility(View.GONE);
+            cameraBtn.setVisibility(View.GONE);
+            galleryBtn.setVisibility(View.GONE);
             Title.setEnabled(false);
             Post.setEnabled(false);
             Price.setEnabled(false);
@@ -130,15 +134,13 @@ public class PostDetailsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode== REQUEST_IMAGE_CAPTURE) {
-            if (resultCode == RESULT_OK)
-            {
+            if (resultCode == RESULT_OK) {
                 Bundle extras=data.getExtras();
                 imageBitMap = (Bitmap) extras.get("data");
                 avatar.setImageBitmap(imageBitMap);
             }
         }else if(requestCode == REQUEST_IMAGE_PICK){
-            if(resultCode == RESULT_OK)
-            {
+            if(resultCode == RESULT_OK) {
                 try {
                     final Uri imageUri = data.getData();
                     final InputStream imageStream = getContext().getContentResolver().openInputStream(imageUri);
@@ -159,15 +161,13 @@ public class PostDetailsFragment extends Fragment {
         this.post.setPost(Post.getText().toString());
         this.post.setAddress(Address.getText().toString());
         this.post.setPrice(Price.getText().toString());
-
         this.post.setDisplayPost(type.equals("edit"));
         if (imageBitMap != null) {
-            Model.instance.saveImage(imageBitMap, this.post.getId().toString() + ".jpg", url ->{
+            Model.instance.savePostImage(imageBitMap, this.post.getId().toString() + ".jpg", url -> {
                 this.post.setAvatarUrl(url);
                 Model.instance.editPost(this.post);
             });
-        }
-        else
+        } else
             Model.instance.editPost(this.post);
     }
 }

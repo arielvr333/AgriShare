@@ -23,11 +23,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAppBarConfiguration = new AppBarConfiguration.Builder().build();
-
         NavHost navHost = (NavHost) getSupportFragmentManager().findFragmentById(R.id.login_navhost);
         navCtl = navHost.getNavController();
-
-       // NavigationUI.setupActionBarWithNavController(this, navCtl);
     }
 
     @Override

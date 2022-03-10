@@ -10,11 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import com.example.agrishare.R;
 import com.example.agrishare.feed.MainActivity;
 import com.example.agrishare.model.Model;
-
 public class LoginFragment extends Fragment {
 
     private EditText username;
@@ -25,20 +23,7 @@ public class LoginFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
-
-
-//    public LoginFragment newInstance(String param1, String param2) {
-//        LoginFragment fragment = new LoginFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+    public LoginFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,17 +52,11 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getContext(), "please enter email and password!", Toast.LENGTH_LONG).show();
             } else {
                 Model.instance.loginUser(txt_email, txt_password, bool -> {
-                    if (bool) {
-                        // Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_postListRvFragment);
-                        toFeedActivity();
-                    }
-                    else
-                        Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
+                    if (bool) toFeedActivity();
+                    else Toast.makeText(getContext(), "The password or username is incorrect", Toast.LENGTH_LONG).show();
                 });
             }
-
         });
-
         return view;
     }
 

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".feed.PostDetailsFragment">
+
+    <ImageButton
+        android:id="@+id/edituser_gallery_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintBottom_toBottomOf="@+id/details_user_img"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/edituser_cam_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toBottomOf="@+id/details_user_img"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!--    <TextView-->
+<!--        android:id="@+id/details_name_tv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:text="Title:"-->
+<!--        android:textColor="#090909"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_post_img" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/details_id_tv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:text="Post:"-->
+<!--        android:textColor="#020202"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_name_tv" />-->
+
+    <!--    <TextView-->
+<!--        android:id="@+id/details_phone_tv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:text="Price:"-->
+<!--        android:textColor="#090909"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_post" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/details_address_tv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:text="Address:"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_phone_tv" />-->
+
+    <ImageView
+        android:id="@+id/details_user_img"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/details_user_img"
+        tools:layout_editor_absoluteX="1dp">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edituser_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/Email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edituser_email"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/Address">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edituser_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/Phonenumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edituser_phonenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/edituser_edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="#8BC34A"
+        android:text="EDIT"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+
+    <!--    <EditText-->
+<!--        android:id="@+id/details_post"-->
+<!--        android:layout_width="322dp"-->
+<!--        android:layout_height="178dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:background="#8DFFFFFF"-->
+<!--        android:ems="10"-->
+<!--        android:gravity="start|top"-->
+<!--        android:inputType="textMultiLine"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.786"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_title" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/details_price"-->
+<!--        android:layout_width="317dp"-->
+<!--        android:layout_height="41dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:background="#8DFFFFFF"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.489"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/details_phone_tv"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_post" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/details_title"-->
+<!--        android:layout_width="313dp"-->
+<!--        android:layout_height="39dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="#8DFFFFFF"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.439"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/details_name_tv"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_post_img" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/details_address"-->
+<!--        android:layout_width="275dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:background="#8DFFFFFF"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.31"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/details_address_tv"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/details_price" />-->
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

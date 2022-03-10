@@ -43,25 +43,25 @@ public class PostListRvFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_posts_list,container,false);
+        view = inflater.inflate(R.layout.fragment_posts_list, container, false);
         RecyclerView list = view.findViewById(R.id.postslist_rv);
         list.setHasFixedSize(true);
         swipeRefresh = view.findViewById(R.id.postlist_swiperefresh);
         swipeRefresh.setOnRefreshListener(Model.instance::refreshPostList);
-
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MyAdapter();
         list.setAdapter(adapter);
-
         adapter.setOnItemClickListener((v, position) -> {
             Long Id = viewModel.getData().getValue().get(position).getId();
             Navigation.findNavController(v).navigate(PostListRvFragmentDirections.actionPostListRvFragmentToPostDetailsFragment(Id));
-
         });
         ImageButton add = view.findViewById(R.id.postlist_add_btn);
-        add.setOnClickListener((v)-> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
+        add.setOnClickListener((v) -> Navigation.findNavController(v).navigate(R.id.action_postListRvFragment_to_addPostFragment));
         logoutBtn = view.findViewById(R.id.postlist_logoutButton);
         logoutBtn.setOnClickListener(v -> logout());
+        view.findViewById(R.id.postlist_userButton).setOnClickListener
+                (Navigation.createNavigateOnClickListener
+                        (R.id.action_postListRvFragment_to_userDetailsFragment));
         setHasOptionsMenu(true);
         viewModel.getData().observe(getViewLifecycleOwner(), list1 -> refresh());
         swipeRefresh.setRefreshing(Model.instance.getPostListLoadingState().getValue() == Model.PostListLoadingState.loading);
@@ -85,7 +85,6 @@ public class PostListRvFragment extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
-
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView TitleTv;
@@ -112,11 +111,8 @@ public class PostListRvFragment extends Fragment {
             PostTv.setText(post.getPost());
             PriceTv.setText(post.getPrice());
             avatar.setImageResource(R.drawable.default_post_picture);
-            if(!post.getAvatarUrl().equals("")) {
-                Picasso.get()
-                        .load(post.getAvatarUrl())
-                        .into(avatar);
-            }
+            if(!post.getAvatarUrl().equals(""))
+                Picasso.get().load(post.getAvatarUrl()).into(avatar);
         }
     }
 
@@ -145,9 +141,7 @@ public class PostListRvFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            if(viewModel.getData().getValue() == null){
-                return 0;
-            }
+            if(viewModel.getData().getValue() == null){ return 0; }
             return viewModel.getData().getValue().size();
         }
     }
