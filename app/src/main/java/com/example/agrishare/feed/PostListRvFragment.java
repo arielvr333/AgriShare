@@ -149,14 +149,18 @@ public class PostListRvFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.post_list_menu,menu);
+        //inflater.inflate(R.menu.post_list_menu,menu);
     }
 
-   @Override
+   /*@Override
    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.addPost_menu)
             return true;
         else
             return super.onOptionsItemSelected(item);
     }
+    */
+   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+       return super.onOptionsItemSelected(item);
+   }
 }
