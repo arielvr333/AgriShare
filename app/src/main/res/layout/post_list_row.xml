@@ -47,6 +47,7 @@
             android:id="@+id/listrowPost"
             android:layout_width="220dp"
             android:layout_height="144dp"
+            android:ellipsize="end"
             android:text="TextView"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"

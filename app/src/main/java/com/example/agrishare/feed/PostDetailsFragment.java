@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -17,9 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import com.example.agrishare.R;
 import com.example.agrishare.model.Post;
 import com.example.agrishare.model.Model;
@@ -41,6 +42,7 @@ public class PostDetailsFragment extends Fragment {
     ImageButton cameraBtn;
     ImageButton galleryBtn;
     Bitmap imageBitMap;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_details, container, false);
@@ -154,6 +156,7 @@ public class PostDetailsFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void save(String type) {
         cameraBtn.setEnabled(false);
         galleryBtn.setEnabled(false);
@@ -161,6 +164,7 @@ public class PostDetailsFragment extends Fragment {
         this.post.setPost(Post.getText().toString());
         this.post.setAddress(Address.getText().toString());
         this.post.setPrice(Price.getText().toString());
+        this.post.setUpdateDate(System.currentTimeMillis());
         this.post.setDisplayPost(type.equals("edit"));
         if (imageBitMap != null) {
             Model.instance.savePostImage(imageBitMap, this.post.getId().toString() + ".jpg", url -> {

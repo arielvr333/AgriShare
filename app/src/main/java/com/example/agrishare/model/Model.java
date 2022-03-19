@@ -2,12 +2,16 @@ package com.example.agrishare.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import androidx.annotation.RequiresApi;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.agrishare.MYApplication;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -57,11 +61,13 @@ public class Model {
         return this.user.Id.equals(post.getWriterId());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void addPost(Post newPost) {
         newPost.setWriterId(user.getId());
         modelFirebase.addPost(newPost, this::refreshPostList);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void editPost(Post post){ modelFirebase.addPost(post, this::refreshPostList); }
 
     public void editUser(User user){
@@ -76,6 +82,7 @@ public class Model {
         this.user = user;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public LiveData<List<Post>> getAll() {
         if (postsList.getValue() == null)
             refreshPostList();
@@ -88,6 +95,7 @@ public class Model {
                 listener.onComplete(p);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void refreshPostList() {
         postListLoadingState.setValue(PostListLoadingState.loading);
         Long lastUpdateDate = MYApplication.getAppContext().getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("lastUpdateDate", 0);
@@ -107,6 +115,8 @@ public class Model {
                     .putLong("PostsLastUpdateDate", lud)
                     .commit();
             List<Post> PostList = AppLocalDB.db.PostDao().getAll();
+            Collections.sort(PostList, Comparator.comparing(Post::getUpdateDate));
+            Collections.reverse(PostList);
             postsList.postValue(PostList);
             postListLoadingState.postValue(PostListLoadingState.loaded);
         }));
